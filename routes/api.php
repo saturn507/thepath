@@ -19,4 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/test', function () {
+    echo "api ok";
+});
+
 Route::post('tg-webhook/de7231e20486abbaa75ed0b2600b9085',[TgWebhookController::class, 'getWebhook']);
