@@ -11,6 +11,6 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     </head>
     <body>
-        <h1>The Path --></h1>
+        <h1 style="text-align: center">The Path --></h1>
     </body>
 </html>
