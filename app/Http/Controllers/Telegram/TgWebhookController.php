@@ -11,6 +11,6 @@ class TgWebhookController extends Controller
     public function getWebhook(Request $request)
     {
         $data = $request->all();
-        Log::channel('telegram')->alert(json_encode($request->json()));
+        Log::channel('telegram')->alert(json_encode($request->toArray()));
     }
 }
