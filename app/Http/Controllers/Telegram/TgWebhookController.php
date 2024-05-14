@@ -16,11 +16,10 @@ class TgWebhookController extends Controller
         if($request->has('message')){
             $this->webhookLog($request);
 
-            $res = TgDTOService::transformWbhookData($request);
             (new TgWebhookService(TgDTOService::transformWbhookData($request)))->run();
-            dd($res);
 
             Log::channel('telegram')->alert(json_encode($request->input('message')));
+
             echo "ok";
         }
     }
