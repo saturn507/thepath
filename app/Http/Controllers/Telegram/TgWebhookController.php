@@ -23,7 +23,7 @@ class TgWebhookController extends Controller
         TgLog::create([
             'chat_id' => $request->input('message.chat.id'),
             'text' => $request->input('message.text'),
-            'log' => $request->input('message'),
+            'log' => json_encode($request->input('message')),
         ]);
     }
 }
