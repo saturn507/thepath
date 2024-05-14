@@ -42,7 +42,7 @@ class TgWebhookService
             'first_name' => $this->data['first_name'],
             'last_name' => $this->data['last_name'],
             'username' => $this->data['username'],
-            'language_code' = $this->data['language_code']
+            'language_code' => $this->data['language_code']
         ]);
     }
 }
