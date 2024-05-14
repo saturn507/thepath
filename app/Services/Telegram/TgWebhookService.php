@@ -44,5 +44,7 @@ class TgWebhookService
             'username' => $this->data['username'],
             'language_code' => $this->data['language_code']
         ]);
+
+        return $tgUser;
     }
 }
