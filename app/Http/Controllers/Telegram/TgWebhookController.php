@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Telegram;
 
 use App\Http\Controllers\Controller;
 use App\Models\Telegram\TgLog;
+use App\Services\Telegram\TgDTOService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -13,6 +14,10 @@ class TgWebhookController extends Controller
     {
         if($request->has('message')){
             $this->webhookLog($request);
+
+            $res = TgDTOService::transformWbhookData($request);
+            dd($res);
+
             Log::channel('telegram')->alert(json_encode($request->input('message')));
             echo "ok";
         }
