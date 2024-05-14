@@ -22,6 +22,8 @@ class TgWebhookController extends Controller
 
             echo "ok";
         }
+
+        Log::channel('telegram')->alert('not message');
     }
 
     private function webhookLog($request): void
