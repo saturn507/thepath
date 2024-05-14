@@ -18,7 +18,6 @@ class TgWebhookService
     public function run()
     {
         $user = $this->checkUser();
-        dd($user);
     }
 
     private function checkUser()
