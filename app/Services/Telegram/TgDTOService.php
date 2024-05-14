@@ -4,7 +4,7 @@ namespace App\Services\Telegram;
 
 class TgDTOService
 {
-    public static function transformData()
+    public static function transformWbhookData()
     {
 
     }
