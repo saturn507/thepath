@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tg_logs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('chat_id');
-            $table->string('text')->nullable();
-            $table->string('log')->nullable();
+            $table->text('text')->nullable();
+            $table->text('log')->nullable();
             $table->timestamps();
         });
     }
