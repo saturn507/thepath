@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('chat_id');
             $table->text('text')->nullable();
             $table->text('log')->nullable();
+            $table->boolean('act')->default(true);
             $table->timestamps();
         });
     }
