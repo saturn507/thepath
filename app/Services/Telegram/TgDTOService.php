@@ -17,7 +17,7 @@ class TgDTOService
             'language_code' => $request->input('message.from.language_code'),
             'command' =>
                 $request->input('message.entities.0.type') == 'bot_command'
-                    ?$request->input('message.text')
+                    ?substr($request->input('message.text'), 1)
                     :null,
             'text' => $request->input('message.text'),
         ];

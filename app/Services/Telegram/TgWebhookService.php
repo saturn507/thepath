@@ -4,6 +4,7 @@ namespace App\Services\Telegram;
 
 use App\Models\Telegram\TgUser;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +18,11 @@ class TgWebhookService
 
     public function run()
     {
-        $user = $this->checkUser();
+        $tgUser = $this->checkUser();
+        $tms = new TgMessageService($tgUser);
+        $tms->setText($this->data['text']);
+        $tms->send();
+        //dd($this->data);
     }
 
     private function checkUser()
@@ -26,7 +31,7 @@ class TgWebhookService
             ->first();
 
         if($tgUser)
-            return $tgUser;
+            return $this->userUpdate($tgUser);
 
         $user = User::create([
             'name' => trim($this->data['first_name'] . " " . $this->data['last_name']),
@@ -43,6 +48,23 @@ class TgWebhookService
             'username' => $this->data['username'],
             'language_code' => $this->data['language_code']
         ]);
+
+        return $tgUser;
+    }
+
+    private function userUpdate($tgUser)
+    {
+        $lastUpdate = Carbon::parse($tgUser->updated_at)->timestamp;
+        $now = Carbon::now()->timestamp;
+
+        if(($now - $lastUpdate) > 60 * 60 * 24 * 2 || !$tgUser->act){
+            $tgUser->first_name = $this->data['first_name'];
+            $tgUser->last_name = $this->data['last_name'];
+            $tgUser->username = $this->data['username'];
+            $tgUser->language_code = $this->data['language_code'];
+            $tgUser->act = true;
+            $tgUser->save();
+        }
 
         return $tgUser;
     }
