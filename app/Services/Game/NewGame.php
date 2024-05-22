@@ -15,7 +15,7 @@ class NewGame
         if(!is_null($currentGame))
             return ['exists' => $currentGame];
 
-        return ['new' => QuestLine::where('act', true)->get()];
+        return ['new' => QuestLine::where('act', true)->orderByDesc('id')->get()];
     }
 
     public function checkCurrentGameFromUser($userId)
