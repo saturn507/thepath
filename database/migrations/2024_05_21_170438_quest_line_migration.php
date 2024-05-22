@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('act')->default(true);
             $table->string('name')->nullable(false);
+            $table->text('description')->nullable(false);
             $table->string('hash')->nullable(false);
             $table->timestamps();
         });

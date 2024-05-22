@@ -33,8 +33,14 @@ class NewGame
 
         foreach($obj as $value){
             $this->createButton([
-                'text' => $value->name,
-                'callback_data' => 'create_game.' . $value->hash,
+                [
+                    'text' => $value->name,
+                    'callback_data' => 'create_game.' . $value->hash,
+                ],
+                [
+                    'text' => 'Описание ->',
+                    'callback_data' => 'description_game.' . $value->hash,
+                ],
             ]);
 
         }
