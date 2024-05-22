@@ -19,9 +19,9 @@ class GameCallback
     {
         $callback = explode('.', $this->data['callback']);
 
-        $res = match ($this->data['command']) {
+        $res = match ($callback[0]) {
             'create_game' => (new NewGame)->descriptionGame($callback[1]),
-            'description_game' => dd('my_team'),
+            'description_game' => (new NewGame)->descriptionGame($callback[1]),
             default => $this->missCommand(),
         };
 
