@@ -26,7 +26,7 @@ class GameCallback
         };
 
         if(!is_null($res)){
-            $this->setText($res);
+            $this->setText($res->description);
             $this->send();
         }
 
