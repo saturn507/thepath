@@ -14,6 +14,7 @@ class QuestLine extends Model
     protected $fillable = [
         'act',
         'name',
+        'description',
         'hash'
     ];
 }
