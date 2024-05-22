@@ -17,12 +17,13 @@ trait TgMessageService
             'text' => $this->getText(),
         ];
 
-        if(count($this->button) > 0)
+        if(count($this->button) > 0) {
             $data['reply_markup'] = json_encode([
                 'inline_keyboard' => [$this->button],
                 'resize_keyboard' => TRUE,
                 'one_time_keyboard' => TRUE
             ]);
+        }
 
         $res = Http::post(
             'https://api.telegram.org/bot7178639784:AAGbpIsLVJqVQMGdE3Bd0oO6UrDhj-2vYyk/sendMessage',
