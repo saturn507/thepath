@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Services\Telegram\Command;
+
+use App\Services\Game\NewGame as NG;
+use App\Services\Telegram\TgMessageService;
+
+class NewGame
+{
+    use TgMessageService;
+    private array $data;
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
+
+    public function run()
+    {
+        $newGame = new NG();
+        $obj = $newGame->list($this->data['user_id']);
+
+        if(isset($obj['new']))
+            $this->newGame($obj['new']);
+
+        dd($obj);
+    }
+
+    private function newGame($obj)
+    {
+        $this->setText('Выбирите квест: ');
+
+        foreach($obj as $value){
+            $this->createButton([
+                'text' => $value->name,
+                'callback_data' => 'create_game.' . $value->hash,
+            ]);
+
+        }
+
+        $this->send();
+    }
+}

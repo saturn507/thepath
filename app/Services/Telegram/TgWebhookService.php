@@ -18,16 +18,19 @@ class TgWebhookService
 
     public function run()
     {
-        $tgUser = $this->checkUser();
-        $tms = new TgMessageService($tgUser);
+        $this->checkUser();
+        if(!is_null($this->data['command'])){
+            (new TgCommand($this->data))->run();
+        }
+        /*$tms = new TgMessageService($this->data);
         $tms->setText($this->data['text']);
-        $tms->send();
+        $tms->send();*/
         //dd($this->data);
     }
 
     private function checkUser()
     {
-        $tgUser = TgUser::where('chat_id', $this->data['chat_id'])
+        $tgUser = TgUser::with('user')->where('chat_id', $this->data['chat_id'])
             ->first();
 
         if($tgUser)
@@ -38,6 +41,8 @@ class TgWebhookService
             'email' => $this->data['username'] . "@tg.ru",
             'password' =>Hash::make($this->data['username'])
         ]);
+
+        $this->data['user_id'] = $tgUser->user_id;
 
         $tgUser = TgUser::create([
             'user_id' => $user->id,
@@ -54,6 +59,8 @@ class TgWebhookService
 
     private function userUpdate($tgUser)
     {
+        $this->data['user_id'] = $tgUser->user_id;
+
         $lastUpdate = Carbon::parse($tgUser->updated_at)->timestamp;
         $now = Carbon::now()->timestamp;
 
