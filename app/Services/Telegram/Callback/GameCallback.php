@@ -17,7 +17,7 @@ class GameCallback
 
     public function run(): void
     {
-        $callback = implode('.', $this->data['callback']);
+        $callback = explode('.', $this->data['callback']);
 
         $res = match ($this->data['command']) {
             'create_game' => (new NewGame)->descriptionGame($callback[1]),
