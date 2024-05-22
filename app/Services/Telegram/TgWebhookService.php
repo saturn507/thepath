@@ -4,6 +4,7 @@ namespace App\Services\Telegram;
 
 use App\Models\Telegram\TgUser;
 use App\Models\User;
+use App\Services\Telegram\Callback\GameCallback;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
@@ -24,9 +25,9 @@ class TgWebhookService
             return;
         }
 
-        if(!is_null($this->data['callback_query'])){
+        if(!is_null($this->data['callback'])){
+            (new GameCallback($this->data))->run();
             return;
-            //dd('callback_query');
         }
     }
 

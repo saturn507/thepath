@@ -2,7 +2,7 @@
 
 namespace App\Services\Telegram;
 
-use App\Services\Telegram\Command\NewGame;
+use App\Services\Telegram\Command\NewGameCommand;
 
 class TgCommand
 {
@@ -17,7 +17,7 @@ class TgCommand
     public function run(): void
     {
         match ($this->data['command']) {
-            'new_game' => (new NewGame($this->data))->run(),
+            'new_game' => (new NewGameCommand($this->data))->run(),
             'my_team' => dd('my_team'),
             default => $this->missCommand(),
         };

@@ -2,10 +2,10 @@
 
 namespace App\Services\Telegram\Command;
 
-use App\Services\Game\NewGame as NG;
+use App\Services\Game\NewGame;
 use App\Services\Telegram\TgMessageService;
 
-class NewGame
+class NewGameCommand
 {
     use TgMessageService;
 
@@ -17,7 +17,7 @@ class NewGame
 
     public function run(): void
     {
-        $newGame = new NG();
+        $newGame = new NewGame();
         $obj = $newGame->list($this->data['user_id']);
 
         if(isset($obj['new']))

@@ -33,4 +33,14 @@ class NewGame
         return null;
     }
 
+    public function descriptionGame($hash): ?string
+    {
+       $res = QuestLine::select('description')->where('hash', $hash)->first();
+
+       if($res)
+           return $res->description;
+
+       return null;
+    }
+
 }
