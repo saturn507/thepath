@@ -21,6 +21,8 @@ class TgCommand
             'my_team' => dd('my_team'),
             default => $this->missCommand(),
         };
+
+        return;
     }
 
     private function missCommand(): void

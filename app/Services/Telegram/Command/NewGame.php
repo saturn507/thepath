@@ -24,6 +24,7 @@ class NewGame
             $this->newGame($obj['new']);
 
         //dd($obj);
+        return;
     }
 
     private function newGame($obj): void
