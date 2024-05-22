@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 trait TgMessageService
 {
     private string $text = '';
-    private array $button;
+    private array $button = [];
 
     public function send(): void
     {
