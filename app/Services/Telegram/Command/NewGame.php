@@ -8,13 +8,14 @@ use App\Services\Telegram\TgMessageService;
 class NewGame
 {
     use TgMessageService;
+
     private array $data;
     public function __construct($data)
     {
         $this->data = $data;
     }
 
-    public function run()
+    public function run(): void
     {
         $newGame = new NG();
         $obj = $newGame->list($this->data['user_id']);
@@ -22,10 +23,10 @@ class NewGame
         if(isset($obj['new']))
             $this->newGame($obj['new']);
 
-        dd($obj);
+        //dd($obj);
     }
 
-    private function newGame($obj)
+    private function newGame($obj): void
     {
         $this->setText('Выбирите квест: ');
 

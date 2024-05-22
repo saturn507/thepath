@@ -16,11 +16,12 @@ class TgWebhookService
         $this->data = $data;
     }
 
-    public function run()
+    public function run(): void
     {
         $this->checkUser();
         if(!is_null($this->data['command'])){
             (new TgCommand($this->data))->run();
+            return;
         }
 
         if(!is_null($this->data['callback_query'])){

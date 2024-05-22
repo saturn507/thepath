@@ -14,7 +14,7 @@ class TgCommand
         $this->data = $data;
     }
 
-    public function run()
+    public function run(): void
     {
         match ($this->data['command']) {
             'new_game' => (new NewGame($this->data))->run(),
@@ -23,7 +23,7 @@ class TgCommand
         };
     }
 
-    private function missCommand()
+    private function missCommand(): void
     {
         $this->setText('Такой команды не существует');
         $this->send();
