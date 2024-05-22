@@ -35,11 +35,11 @@ class NewGame
 
             $arr = [
                 [
-                    'text' => $value->name,
+                    'text' => '#'. $value->id . ' ' .$value->name,
                     'callback_data' => 'create_game.' . $value->hash,
                 ],
                 [
-                    'text' => 'Описание ->',
+                    'text' => 'Подробнее ->',
                     'callback_data' => 'description_game.' . $value->hash,
                 ]
             ];
