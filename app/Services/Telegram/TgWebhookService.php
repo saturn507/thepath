@@ -24,6 +24,7 @@ class TgWebhookService
         }
 
         if(!is_null($this->data['callback_query'])){
+            return;
             //dd('callback_query');
         }
     }
