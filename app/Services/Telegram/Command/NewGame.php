@@ -32,16 +32,19 @@ class NewGame
         $this->setText('Выбирите квест: ');
 
         foreach($obj as $value){
-            $this->createButton([
-                'text' => $value->name,
-                'callback_data' => 'create_game.' . $value->hash,
-            ]);
 
-            $this->createButton([
-                'text' => 'Описание ->',
-                'callback_data' => 'description_game.' . $value->hash,
-            ]);
+            $arr = [
+                [
+                    'text' => $value->name,
+                    'callback_data' => 'create_game.' . $value->hash,
+                ],
+                [
+                    'text' => 'Описание ->',
+                    'callback_data' => 'description_game.' . $value->hash,
+                ]
+            ];
 
+            $this->createButton($arr);
         }
 
         $this->send();
