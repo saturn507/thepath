@@ -15,28 +15,27 @@ class TgWebhookController extends Controller
     {
         Log::channel('telegram')->alert(json_encode($request->all()));
         if($request->has('message') || $request->has('callback_query')){
-            $this->webhookLog($request);
 
-            $msg = $request->has('message')
-                ? $request->input('message')
-                : $request->input('callback_query');
+            $data = TgDTOService::transformWbhookData($request);
 
-            (new TgWebhookService(TgDTOService::transformWbhookData($request)))->run();
+            $this->webhookLog($request, $data);
 
-            Log::channel('telegram')->alert(json_encode($msg));
+            (new TgWebhookService($data))->run();
+
+            Log::channel('telegram')->alert(json_encode($request->all()));
 
             echo "ok";
         }
 
-        Log::channel('telegram')->alert('not message');
+        Log::channel('telegram')->alert('not message ******* ' . json_encode($request->all()));
     }
 
-    private function webhookLog($request): void
+    private function webhookLog($request, $data): void
     {
         TgLog::create([
-            'chat_id' => $request->input('message.chat.id'),
-            'text' => $request->input('message.text'),
-            'log' => json_encode($request->input('message')),
+            'chat_id' => $data['chat_id'],
+            'text' => $data['text'],
+            'log' => json_encode($request->all()),
         ]);
     }
 }

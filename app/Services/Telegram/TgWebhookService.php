@@ -22,14 +22,17 @@ class TgWebhookService
         if(!is_null($this->data['command'])){
             (new TgCommand($this->data))->run();
         }
-        /*$tms = new TgMessageService($this->data);
-        $tms->setText($this->data['text']);
-        $tms->send();*/
-        //dd($this->data);
+
+        if(!is_null($this->data['callback_query'])){
+            dd('callback_query');
+        }
     }
 
     private function checkUser()
     {
+        if($this->data['is_bot'])
+            return;
+
         $tgUser = TgUser::with('user')->where('chat_id', $this->data['chat_id'])
             ->first();
 
