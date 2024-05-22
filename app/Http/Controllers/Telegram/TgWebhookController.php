@@ -14,7 +14,7 @@ class TgWebhookController extends Controller
     public function getWebhook(Request $request)
     {
         Log::channel('telegram')->alert(json_encode($request->all()));
-        echo "ok";die();
+
         if($request->has('message') || $request->has('callback_query')){
 
             $data = TgDTOService::transformWbhookData($request);
