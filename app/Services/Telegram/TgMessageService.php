@@ -17,7 +17,7 @@ trait TgMessageService
             'text' => $this->getText(),
         ];
 
-        if($this->button)
+        if(count($this->button) > 0)
             $data['reply_markup'] = json_encode([
                 'inline_keyboard' => [$this->button],
                 'resize_keyboard' => TRUE,
