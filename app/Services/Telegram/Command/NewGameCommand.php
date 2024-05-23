@@ -41,14 +41,14 @@ class NewGameCommand
 
         $this->createButton(array_chunk($arr, 2));
 
-        /*$this->pushButton([
-            [
-                'text' => 'Показать еще варианты',
-                'callback_data' => 'list_game.' . $this->data['pagination']['next_page'],
-            ]
-        ]);*/
-
         $this->pushButton($this->paginationButton());
+
+        $this->pushButton([
+            [
+                'text' => '[X] Закрыть',
+                'callback_data' => 'delete_callback',
+            ]
+        ]);
 
         $this->send();
     }
