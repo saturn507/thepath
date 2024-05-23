@@ -78,7 +78,7 @@ class NewGameCommand
             ];
         }
 
-        if ($this->data['pagination']['total'] >= ($this->data['pagination']['page'] * $this->data['pagination']['count'])) {
+        if ($this->data['pagination']['total'] > ($this->data['pagination']['next_page'] * $this->data['pagination']['count'])) {
             $paginateButton[] = [
                 'text' => 'Вперед ->',
                 'callback_data' => 'list_game.' . $this->data['pagination']['next_page'],
