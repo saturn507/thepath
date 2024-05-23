@@ -43,11 +43,7 @@ class NewGameCommand
         $this->pushButton([
             [
                 'text' => 'Показать еще варианты',
-                'callback_data' => '',
-            ],
-            [
-                'text' => 'Показать еще варианты',
-                'callback_data' => '',
+                'callback_data' => 'description_game.',
             ]
         ]);
 

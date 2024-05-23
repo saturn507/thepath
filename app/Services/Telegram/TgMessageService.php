@@ -24,13 +24,13 @@ trait TgMessageService
                 'one_time_keyboard' => TRUE
             ]);
         }
-        dd($this->button);
+        //dd($this->button);
         $res = Http::post(
             'https://api.telegram.org/bot7178639784:AAGbpIsLVJqVQMGdE3Bd0oO6UrDhj-2vYyk/sendMessage',
                 $data
         );
 
-        //dd($res->body());
+        dd($res->body());
 
         if($res->status() == 403){
             TgUser::where('chat_id', $this->webhookData['chat_id'])->update(['act' => false]);
