@@ -27,6 +27,16 @@ class GameCallback
 
         if(!is_null($res)){
             $this->setText($res->description);
+            $this->createButton([
+                [
+                    'text' => 'Назад',
+                    'callback_data' => 'description_game',
+                ],
+                [
+                    'text' => 'Начать игру',
+                    'callback_data' => 'create_game.' . $res->hash,
+                ]
+            ]);
             $this->send();
         }
 
