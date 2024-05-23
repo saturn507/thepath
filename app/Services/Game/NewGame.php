@@ -16,7 +16,7 @@ class NewGame
             return ['exists' => $currentGame];
 
         $count = 2;
-        $page = $data['page'] ?? 0;
+        $page = $data['page'] ?? 1;
 
         return [
             'new' =>

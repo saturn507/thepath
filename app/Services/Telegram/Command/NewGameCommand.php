@@ -32,7 +32,7 @@ class NewGameCommand
         if(isset($this->data['page'])){
             $page = $this->data['page'] + 1;
         } else {
-            $page = 0;
+            $page = 1;
         }
 
         $this->setText('Выбирите квест: ');
