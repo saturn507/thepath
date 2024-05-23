@@ -29,6 +29,12 @@ class NewGameCommand
 
     private function newGame($obj): void
     {
+        if(isset($this->data['page'])){
+            $page = $this->data['page'] + 1;
+        } else {
+            $page = 0;
+        }
+
         $this->setText('Выбирите квест: ');
 
         $arr = [];
@@ -43,7 +49,7 @@ class NewGameCommand
         $this->pushButton([
             [
                 'text' => 'Показать еще варианты',
-                'callback_data' => 'list_game.' . $this->data['page'] + 1,
+                'callback_data' => 'list_game.' . $page,
             ]
         ]);
 
