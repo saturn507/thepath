@@ -19,21 +19,18 @@ class TgDTOService
                 $request->input('callback_query.message.from.is_bot')
             ),
             'first_name' => $request->input(
-                'message.from.first_name',
-                $request->input('callback_query.message.from.first_name')
+                'message.chat.first_name',
+                $request->input('callback_query.message.chat.first_name')
             ),
             'last_name' => $request->input(
-                'message.from.last_name',
-                $request->input('callback_query.message.from.last_name')
+                'message.chat.last_name',
+                $request->input('callback_query.message.chat.last_name')
             ),
             'username' => $request->input(
-                'message.from.username',
-                $request->input('callback_query.message.from.username')
+                'message.chat.username',
+                $request->input('callback_query.message.chat.username')
             ),
-            'language_code' => $request->input(
-                'message.from.language_code',
-                $request->input('callback_query.message.from.language_code')
-            ),
+            'language_code' => $request->input('message.from.language_code', null),
             'command' =>
                 $request->input('message.entities.0.type') == 'bot_command'
                     ?substr($request->input('message.text'), 1)

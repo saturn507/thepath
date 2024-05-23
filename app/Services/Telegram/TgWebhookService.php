@@ -34,14 +34,14 @@ class TgWebhookService
 
     private function checkUser()
     {
-        if($this->data['is_bot'])
-            return;
-
         $tgUser = TgUser::with('user')->where('chat_id', $this->data['chat_id'])
             ->first();
 
         if($tgUser)
             return $this->userUpdate($tgUser);
+
+        if($this->data['is_bot'])
+            return;
 
         $user = User::create([
             'name' => trim($this->data['first_name'] . " " . $this->data['last_name']),
