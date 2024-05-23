@@ -35,7 +35,7 @@ class GameCallback
         }
     }
 
-    public function createGame($hash)
+    public function createGame()
     {
 
     }
