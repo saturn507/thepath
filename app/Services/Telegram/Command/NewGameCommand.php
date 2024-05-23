@@ -40,12 +40,16 @@ class NewGameCommand
         }
 
         $this->createButton(array_chunk($arr, 2));
-        $this->pushButton(
+        $this->pushButton([
+            [
+                'text' => 'Показать еще варианты',
+                'callback_data' => '',
+            ],
             [
                 'text' => 'Показать еще варианты',
                 'callback_data' => '',
             ]
-        );
+        ]);
 
         $this->send();
     }

@@ -24,7 +24,7 @@ trait TgMessageService
                 'one_time_keyboard' => TRUE
             ]);
         }
-        //dd($data['reply_markup']);
+        dd($this->button);
         $res = Http::post(
             'https://api.telegram.org/bot7178639784:AAGbpIsLVJqVQMGdE3Bd0oO6UrDhj-2vYyk/sendMessage',
                 $data
