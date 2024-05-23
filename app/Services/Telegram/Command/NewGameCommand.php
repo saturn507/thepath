@@ -17,25 +17,19 @@ class NewGameCommand
 
     public function listGame(): void
     {
+        $this->pagination();
+
         $newGame = new NewGame();
         $obj = $newGame->list($this->data);
 
         if(isset($obj['new']))
             $this->newGame($obj['new']);
 
-        //dd($obj);
-        return;
     }
 
     private function newGame($obj): void
     {
-        if(isset($this->data['page'])){
-            $page = $this->data['page'] + 1;
-        } else {
-            $page = 1;
-        }
-
-        $this->setText('Выбирите квест: ');
+        $this->setText('Выбирите квест:');
 
         $arr = [];
         foreach($obj as $value){
@@ -46,13 +40,52 @@ class NewGameCommand
         }
 
         $this->createButton(array_chunk($arr, 2));
-        $this->pushButton([
+
+        /*$this->pushButton([
             [
                 'text' => 'Показать еще варианты',
-                'callback_data' => 'list_game.' . $page,
+                'callback_data' => 'list_game.' . $this->data['pagination']['next_page'],
             ]
-        ]);
+        ]);*/
+
+        $this->pushButton($this->paginationButton());
 
         $this->send();
     }
+
+    private function pagination()
+    {
+        $this->data['pagination']['count'] = 2;
+
+        if (isset($this->data['page'])) {
+            $this->data['pagination']['page'] = $this->data['page'];
+        } else {
+            $this->data['pagination']['page'] = 0;
+        }
+
+        $this->data['pagination']['next_page'] = $this->data['pagination']['page'] + 1;
+        $this->data['pagination']['pre_page'] = $this->data['pagination']['page'] - 1;
+        $this->data['pagination']['total'] = NewGame::count();
+    }
+    private function paginationButton()
+    {
+        $paginateButton = [];
+
+        if ($this->data['pagination']['pre_page'] >= 2) {
+            $paginateButton[] = [
+                'text' => '<- Назад',
+                'callback_data' => 'list_game.' . $this->data['pagination']['next_page'],
+            ];
+        }
+
+        if ($this->data['pagination']['total'] > ($this->data['pagination']['page'] * $this->data['pagination']['count'])) {
+            $paginateButton[] = [
+                'text' => 'Вперед ->',
+                'callback_data' => 'list_game.' . $this->data['pagination']['next_page'],
+            ];
+        }
+
+        return $paginateButton;
+    }
+
 }

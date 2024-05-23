@@ -15,8 +15,8 @@ class NewGame
         if(!is_null($currentGame))
             return ['exists' => $currentGame];
 
-        $count = 2;
-        $page = $data['page'] ?? 0;
+        $count = $this->data['pagination']['count'];
+        $page = $this->data['pagination']['page'];
 
         return [
             'new' =>
@@ -26,6 +26,11 @@ class NewGame
                     ->offset($page * $count)
                     ->get()
         ];
+    }
+
+    public static function count()
+    {
+        return QuestLine::where('act', true)->count();
     }
 
     public function checkCurrentGameFromUser($userId)
