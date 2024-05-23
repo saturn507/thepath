@@ -55,7 +55,7 @@ class NewGameCommand
 
     private function pagination()
     {
-        $this->data['pagination']['count'] = 2;
+        $this->data['pagination']['count'] = 8;
 
         if (isset($this->data['page'])) {
             $this->data['pagination']['page'] = $this->data['page'];
