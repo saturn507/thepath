@@ -20,6 +20,7 @@ class TgWebhookService
     public function run(): void
     {
         $this->checkUser();
+
         if(!is_null($this->data['command'])){
             (new TgCommand($this->data))->run();
             return;

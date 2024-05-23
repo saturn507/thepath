@@ -37,6 +37,17 @@ trait TgMessageService
         }
     }
 
+    public function delete()
+    {
+        Http::post(
+            'https://api.telegram.org/bot7178639784:AAGbpIsLVJqVQMGdE3Bd0oO6UrDhj-2vYyk/deleteMessage',
+            [
+                'chat_id' => $this->data['chat_id'],
+                'message_id' => $this->data['message_id'],
+            ]
+        );
+    }
+
     public function setText($text): void
     {
         $this->text .= $text;
