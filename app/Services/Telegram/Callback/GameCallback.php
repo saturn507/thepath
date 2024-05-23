@@ -3,6 +3,7 @@
 namespace App\Services\Telegram\Callback;
 
 use App\Services\Game\NewGame;
+use App\Services\Telegram\Command\NewGameCommand;
 use App\Services\Telegram\TgMessageService;
 
 class GameCallback
@@ -38,5 +39,16 @@ class GameCallback
     public function createGame()
     {
 
+    }
+
+    public function listGame()
+    {
+        $this->delete();
+
+        if(isset($this->data['callback_data'][1])){
+            $this->data['page'] = $this->data['callback_data'][1];
+        }
+
+        (new NewGameCommand($this->data))->listGame();
     }
 }

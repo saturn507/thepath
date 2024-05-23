@@ -4,6 +4,7 @@ namespace App\Services\Telegram;
 
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Callback\GameCallback;
+use App\Services\Telegram\Command\NewGameCommand;
 
 class TgCallback
 {
@@ -25,6 +26,7 @@ class TgCallback
         match ($this->data['callback']) {
             'create_game' => (new GameCallback($this->data))->createGame(),
             'description_game' => (new GameCallback($this->data))->descriptionGame(),
+            'list_game' => (new GameCallback($this->data))->listGame(),
             'delete_callback' => $this->deleteCallback(),
             default => $this->missCommand(),
         };

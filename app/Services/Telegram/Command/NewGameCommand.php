@@ -15,10 +15,10 @@ class NewGameCommand
         $this->data = $data;
     }
 
-    public function run(): void
+    public function listGame(): void
     {
         $newGame = new NewGame();
-        $obj = $newGame->list($this->data['user_id']);
+        $obj = $newGame->list($this->data);
 
         if(isset($obj['new']))
             $this->newGame($obj['new']);
@@ -43,7 +43,7 @@ class NewGameCommand
         $this->pushButton([
             [
                 'text' => 'Показать еще варианты',
-                'callback_data' => 'description_game.',
+                'callback_data' => 'list_game.' . $this->data['page'] + 1,
             ]
         ]);
 

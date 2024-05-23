@@ -8,14 +8,24 @@ use App\Models\QuestLine;
 class NewGame
 {
 
-    public function list($userId)
+    public function list($data)
     {
-        $currentGame = $this->checkCurrentGameFromUser($userId);
+        $currentGame = $this->checkCurrentGameFromUser($data['user_id']);
 
         if(!is_null($currentGame))
             return ['exists' => $currentGame];
 
-        return ['new' => QuestLine::where('act', true)->orderByDesc('id')->get()];
+        $count = 2;
+        $page = $data['page'] ?? 0;
+
+        return [
+            'new' =>
+                QuestLine::where('act', true)
+                    ->orderByDesc('id')
+                    ->limit($count)
+                    ->offset($page * $count)
+                    ->get()
+        ];
     }
 
     public function checkCurrentGameFromUser($userId)

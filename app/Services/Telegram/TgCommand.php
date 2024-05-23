@@ -17,7 +17,7 @@ class TgCommand
     public function run(): void
     {
         match ($this->data['command']) {
-            'new_game' => (new NewGameCommand($this->data))->run(),
+            'new_game' => (new NewGameCommand($this->data))->listGame(),
             'my_team' => $this->missCommand(),
             default => $this->missCommand(),
         };
