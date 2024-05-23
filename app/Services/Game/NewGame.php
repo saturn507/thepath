@@ -15,8 +15,8 @@ class NewGame
         if(!is_null($currentGame))
             return ['exists' => $currentGame];
 
-        $count = $this->data['pagination']['count'];
-        $page = $this->data['pagination']['page'];
+        $count = $data['pagination']['count'];
+        $page = $data['pagination']['page'];
 
         return [
             'new' =>
