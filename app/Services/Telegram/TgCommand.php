@@ -18,7 +18,7 @@ class TgCommand
     {
         match ($this->data['command']) {
             'new_game' => (new NewGameCommand($this->data))->run(),
-            'my_team' => dd('my_team'),
+            'my_team' => return,
             default => $this->missCommand(),
         };
 
