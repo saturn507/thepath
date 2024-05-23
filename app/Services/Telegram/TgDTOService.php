@@ -43,6 +43,10 @@ class TgDTOService
                 $request->input('callback_query.message.text')
             ),
             'callback' => $request->input('callback_query.data', null),
+            'message_id' => $request->input(
+                'message.message_id',
+                $request->input('callback_query.message.message_id')
+            ),
         ];
     }
 }
