@@ -51,4 +51,9 @@ trait TgMessageService
     {
         $this->button = $array;
     }
+
+    public function pushButton($array)
+    {
+        array_push($this->button, $array);
+    }
 }
