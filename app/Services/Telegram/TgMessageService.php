@@ -30,7 +30,7 @@ trait TgMessageService
                 $data
         );
 
-        dd($res->body());
+        //dd($res->body());
 
         if($res->status() == 403){
             TgUser::where('chat_id', $this->webhookData['chat_id'])->update(['act' => false]);
