@@ -24,11 +24,11 @@ class GameCallback
             $this->setText($res->description);
             $this->createButton(array_chunk([
                 [
-                    'text' => 'Закрыть',
+                    'text' => '[X] Закрыть',
                     'callback_data' => 'delete_callback',
                 ],
                 [
-                    'text' => 'Начать игру',
+                    'text' => 'Начать игру -->',
                     'callback_data' => 'create_game.' . $res->hash,
                 ]
             ], 2));
