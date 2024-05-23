@@ -31,21 +31,15 @@ class NewGameCommand
     {
         $this->setText('Выбирите квест: ');
 
+        $arr = [];
         foreach($obj as $value){
-
-            $arr = [
-                [
-                    'text' => '#'. $value->id . ' ' .$value->name,
-                    'callback_data' => 'create_game.' . $value->hash,
-                ],
-                [
-                    'text' => 'Подробнее ->',
-                    'callback_data' => 'description_game.' . $value->hash,
-                ]
+            $arr[] = [
+                'text' => '#'. $value->id . ' ' .$value->name,
+                'callback_data' => 'description_game.' . $value->hash,
             ];
-
-            $this->createButton($arr);
         }
+
+        $this->createButton(array_chunk($arr, 2));
 
         $this->send();
     }
