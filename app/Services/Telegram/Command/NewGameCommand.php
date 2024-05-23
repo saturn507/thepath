@@ -71,10 +71,10 @@ class NewGameCommand
     {
         $paginateButton = [];
 
-        if ($this->data['pagination']['pre_page'] >= 2) {
+        if ($this->data['pagination']['pre_page'] >= 1) {
             $paginateButton[] = [
                 'text' => '<- Назад',
-                'callback_data' => 'list_game.' . $this->data['pagination']['next_page'],
+                'callback_data' => 'list_game.' . $this->data['pagination']['pre_page'],
             ];
         }
 
