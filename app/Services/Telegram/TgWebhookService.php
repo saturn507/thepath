@@ -27,7 +27,7 @@ class TgWebhookService
         }
 
         if(!is_null($this->data['callback'])){
-            (new GameCallback($this->data))->run();
+            (new TgCallback($this->data))->run();
             return;
         }
     }
