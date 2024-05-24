@@ -55,6 +55,8 @@ class GameCallback
                 'capitan' => true,
                 'confirmed' => true
             ]);
+
+            $this->delete();
         } else {
             dd(1);
         }
