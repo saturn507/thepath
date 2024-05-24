@@ -49,11 +49,14 @@ class GameCallback
                 'start_at' => Carbon::now()
             ]);
 
-            $game->userGame()->create([
+            $game->userGame()->insert([
+                'game_id' => $game->id,
                 'user_id' => $this->data['user_id'],
                 'capitan' => true,
                 'confirmed' => true
             ]);
+        } else {
+            dd(1);
         }
     }
 

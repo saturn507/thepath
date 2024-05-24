@@ -22,8 +22,11 @@ class NewGameCommand
         $newGame = new NewGame();
         $obj = $newGame->list($this->data);
 
-        if(isset($obj['new']))
-            $this->newGame($obj['new']);
+        if(isset($obj['list']))
+            $this->newGame($obj['list']);
+
+        if(isset($obj['exists']))
+            $this->existsGameMessage($obj['exists']);
 
     }
 
@@ -86,6 +89,12 @@ class NewGameCommand
         }
 
         return $paginateButton;
+    }
+
+    public function existsGameMessage(Game $currentGame)
+    {
+        $this->setText('Есть не закоченые игры' . $currentGame->questionLine->name);
+        $this->send();
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Services\Game;
 
 use App\Models\Game;
 use App\Models\QuestLine;
+use Illuminate\Database\Eloquent\Builder;
 
 class NewGame
 {
@@ -19,7 +20,7 @@ class NewGame
         $page = $data['pagination']['page'];
 
         return [
-            'new' =>
+            'list' =>
                 QuestLine::where('act', true)
                     ->orderByDesc('id')
                     ->limit($count)
@@ -35,9 +36,12 @@ class NewGame
 
     public function checkCurrentGameFromUser($userId)
     {
-        $currentGame = Game::with('users', function($query) use ($userId){
-            return  $query->where('id', $userId);
-        })
+        $currentGame = Game::query()
+            ->with('questionLine')
+            ->whereHas(
+                'users',
+                fn(Builder $builder) => $builder->where('id', $userId)
+            )
             ->where('act', true)
             ->whereNull('finish_at')
             ->first();
