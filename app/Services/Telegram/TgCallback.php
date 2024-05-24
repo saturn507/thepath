@@ -28,6 +28,7 @@ class TgCallback
             'description_game' => (new GameCallback($this->data))->descriptionGame(),
             'list_game' => (new GameCallback($this->data))->listGame(),
             'delete_callback' => $this->deleteCallback(),
+            'finish_game' => (new GameCallback($this->data))->finishGame(),
             default => $this->missCommand(),
         };
     }

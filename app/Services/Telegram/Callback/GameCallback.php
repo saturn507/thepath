@@ -70,4 +70,18 @@ class GameCallback
 
         (new NewGameCommand($this->data))->listGame();
     }
+
+    public function finishGame()
+    {
+        $this->delete();
+
+        $newGame = new NewGame();
+        $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
+
+        Game::query()
+            ->where('id', $obj->id)
+            ->update([
+                'act' => false,
+            ]);
+    }
 }
