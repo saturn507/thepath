@@ -2,6 +2,7 @@
 
 namespace App\Services\Telegram\Command;
 
+use App\Models\Game;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\TgMessageService;
 
