@@ -50,6 +50,7 @@ class GameCallback
             ]);
 
             $game->userGame()->create([
+                'user_id' => $this->data['user_id'],
                 'capitan' => true,
                 'confirmed' => true
             ]);
