@@ -48,9 +48,9 @@ class NewGame
         return null;
     }
 
-    public function descriptionGame($hash): QuestLine
+    public function descriptionGame($id): QuestLine
     {
-       return QuestLine::where('hash', $hash)->first();
+       return QuestLine::where('id', $id)->first();
     }
 
 }

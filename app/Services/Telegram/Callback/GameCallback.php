@@ -2,9 +2,11 @@
 
 namespace App\Services\Telegram\Callback;
 
+use App\Models\Game;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Command\NewGameCommand;
 use App\Services\Telegram\TgMessageService;
+use Carbon\Carbon;
 
 class GameCallback
 {
@@ -29,7 +31,7 @@ class GameCallback
                 ],
                 [
                     'text' => 'Начать игру -->',
-                    'callback_data' => 'create_game.' . $res->hash,
+                    'callback_data' => 'create_game.' . $res->id,
                 ]
             ], 2));
             $this->send();
@@ -40,6 +42,18 @@ class GameCallback
     {
         $newGame = new NewGame();
         $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
+
+        if(!is_null($obj)){
+            $game = Game::create([
+                'quest_line_id' => $this->data['callback_data'][1],
+                'start_at' => Carbon::now()
+            ]);
+
+            $game->userGame()->create([
+                'capitan' => true,
+                'confirmed' => true
+            ]);
+        }
     }
 
     public function listGame()

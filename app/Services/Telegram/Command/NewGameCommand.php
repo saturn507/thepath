@@ -35,7 +35,7 @@ class NewGameCommand
         foreach($obj as $value){
             $arr[] = [
                 'text' => '#'. $value->id . ' ' .$value->name,
-                'callback_data' => 'description_game.' . $value->hash,
+                'callback_data' => 'description_game.' . $value->id,
             ];
         }
 

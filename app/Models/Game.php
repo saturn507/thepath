@@ -13,13 +13,18 @@ class Game extends Model
         'quest_line_id',
         'act',
         'start_at',
-        'start_at',
+        'finish_at',
         'team_name'
     ];
 
     public function user()
     {
         return $this->hasManyThrough(User::class, GameToUser::class);
+    }
+
+    public function userGame()
+    {
+        return $this->hasMany(GameToUser::class);
     }
 
 }
