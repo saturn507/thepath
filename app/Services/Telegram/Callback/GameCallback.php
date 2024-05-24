@@ -38,7 +38,8 @@ class GameCallback
 
     public function createGame()
     {
-
+        $newGame = new NewGame();
+        $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
     }
 
     public function listGame()
