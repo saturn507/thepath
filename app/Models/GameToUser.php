@@ -10,6 +10,8 @@ class GameToUser extends Model
     use HasFactory;
 
     public $timestamps = false;
+    protected $primaryKey = null;
+    public $incrementing = false;
     protected $fillable = [
         'game_id',
         'user_id',
