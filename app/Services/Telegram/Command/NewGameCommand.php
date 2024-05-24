@@ -95,7 +95,7 @@ class NewGameCommand
     public function existsGameMessage(Game $currentGame)
     {
         $this->setText('Есть не закоченые игры ' . $currentGame->questionLine->name);
-        $this->createButton([
+        $this->createButton([[
             [
                 'text' => 'Закончить игру',
                 'callback_data' => 'finish_game',
@@ -104,7 +104,7 @@ class NewGameCommand
                 'text' => 'Продолжить',
                 'callback_data' => 'continue',
             ]
-        ]);
+        ]]);
         $this->send();
     }
 
