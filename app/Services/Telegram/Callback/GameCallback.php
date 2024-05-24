@@ -58,7 +58,7 @@ class GameCallback
 
             $this->delete();
         } else {
-            (new NewGameCommand($this->data))->existsGameMessage();
+            (new NewGameCommand($this->data))->existsGameMessage($obj);
         }
     }
 
