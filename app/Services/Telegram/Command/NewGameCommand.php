@@ -94,7 +94,7 @@ class NewGameCommand
 
     public function existsGameMessage(Game $currentGame)
     {
-        $this->setText('Есть не закоченые игры ' . $currentGame->questionLine->name);
+        $this->setText('У вас есть не закоченые игры ' . PHP_EOL . $currentGame->questionLine->name);
         $this->createButton([[
             [
                 'text' => 'Закончить игру',
