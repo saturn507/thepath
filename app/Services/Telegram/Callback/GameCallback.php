@@ -77,11 +77,12 @@ class GameCallback
 
         $newGame = new NewGame();
         $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
-
-        Game::query()
-            ->where('id', $obj->id)
-            ->update([
-                'act' => false,
-            ]);
+        if (!is_null($obj)){
+            Game::query()
+                ->where('id', $obj->id)
+                ->update([
+                    'act' => false,
+                ]);
+        }
     }
 }
