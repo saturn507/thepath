@@ -43,7 +43,7 @@ class GameCallback
         $newGame = new NewGame();
         $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
 
-        if(!is_null($obj)){
+        if(is_null($obj)){
             $game = Game::create([
                 'quest_line_id' => $this->data['callback_data'][1],
                 'start_at' => Carbon::now()
