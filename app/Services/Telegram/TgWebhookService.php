@@ -4,7 +4,9 @@ namespace App\Services\Telegram;
 
 use App\Models\Telegram\TgUser;
 use App\Models\User;
+use App\Services\Game\NewGame;
 use App\Services\Telegram\Callback\GameCallback;
+use App\Services\Telegram\Command\NewGameCommand;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
@@ -30,6 +32,9 @@ class TgWebhookService
             (new TgCallback($this->data))->run();
             return;
         }
+
+        (new NewGameCommand($this->data))->answer();
+
     }
 
     private function checkUser()

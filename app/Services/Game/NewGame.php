@@ -113,23 +113,35 @@ class NewGame
         });
     }
 
-    public function startGame($gameId)
+    public function nexQuestion($gameId, $start = false)
     {
-        Game::query()
-            ->where('id', $gameId)
-            ->update(['start_at' => Carbon::now()]);
+        if($start){
+            Game::query()
+                ->where('id', $gameId)
+                ->update(['start_at' => Carbon::now()]);
+        }
 
         $point = $this->getNextLocation($gameId);
-
-
 
         $data = [
             'location' => Location::find($point->points[0]->location_id)->name,
             'question_id' => $point->points[0]->id,
             'question' => $point->points[0]->question,
+            'answer' => $point->points[0]->answer,
         ];
 
         return $data;
+    }
+
+    public function correctAnswer($game, $answer)
+    {
+        GameToPoint::query()
+            ->where('game_id', $game->id)
+            ->where('point_id', $answer['question_id'])
+            ->update([
+                'completed' => true,
+                'answer' => $answer['answer']
+            ]);
     }
 
 }

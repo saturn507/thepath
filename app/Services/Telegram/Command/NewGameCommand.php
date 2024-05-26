@@ -114,4 +114,34 @@ class NewGameCommand
         $this->send();
     }
 
+    public function answer()
+    {
+        $newGame = new NewGame();
+        $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
+        if(!is_null($obj)){
+            $question = $newGame->nexQuestion($obj->id);
+
+
+            $answer = strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $question['answer']));
+            $possibleAnswer = strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $this->data['text']));
+
+            if($answer == $possibleAnswer){
+                $newGame->correctAnswer($obj, $question['answer']);
+
+                $next = $newGame->nexQuestion($obj->id);
+
+                $text = "Необходимо пройти по адресу." . PHP_EOL .
+                    $next['location'] . PHP_EOL .
+                    "и ответить на вопрос" . PHP_EOL . $next['question'];
+                $this->setText($text);
+                $this->send();
+
+            } else {
+                $this->setText('Ответ не верный, попробуйте еще раз');
+                $this->send();
+            }
+
+        }
+    }
+
 }
