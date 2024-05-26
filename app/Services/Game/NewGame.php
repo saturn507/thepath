@@ -4,6 +4,7 @@ namespace App\Services\Game;
 
 use App\Models\Game;
 use App\Models\GameToPoint;
+use App\Models\Location;
 use App\Models\QuestLine;
 use App\Models\QuestLineToPoint;
 use Carbon\Carbon;
@@ -56,6 +57,23 @@ class NewGame
         return null;
     }
 
+    public function getNextLocation($gameId)
+    {
+        return Game::query()
+            ->with('points', fn($builder) =>
+                $builder->where('completed', false)
+                    ->orderBy('game_to_points.id')
+                    ->limit(1)
+            )
+            //->with('points.location')
+            ->whereHas(
+                'currentPoint'
+            )
+            ->where('id', $gameId)
+            ->whereNull('finish_at')
+            ->first();
+    }
+
     public function descriptionGame($id): QuestLine
     {
        return QuestLine::query()->where('id', $id)->first();
@@ -97,9 +115,21 @@ class NewGame
 
     public function startGame($gameId)
     {
-        $game = Game::query()->update(['start_at' => Carbon::now()]);
+        Game::query()
+            ->where('id', $gameId)
+            ->update(['start_at' => Carbon::now()]);
 
-        $ql = QuestLine::query();
+        $point = $this->getNextLocation($gameId);
+
+
+
+        $data = [
+            'location' => Location::find($point->points[0]->location_id)->name,
+            'question_id' => $point->points[0]->id,
+            'question' => $point->points[0]->question,
+        ];
+
+        return $data;
     }
 
 }

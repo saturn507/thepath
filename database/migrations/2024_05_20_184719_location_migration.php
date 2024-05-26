@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('address')->nullable(false);
             $table->double('lat',8,6)->nullable();
             $table->double('lng',8,6)->nullable();
-            $table->text('historical reference')->nullable();
+            $table->text('historical_reference')->nullable();
             $table->timestamps();
         });
     }

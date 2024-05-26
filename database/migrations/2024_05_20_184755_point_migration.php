@@ -19,7 +19,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->text('question')->nullable();
-            $table->string('ansver')->nullable();
+            $table->string('answer')->nullable();
             $table->timestamps();
         });
     }

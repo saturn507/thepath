@@ -33,12 +33,28 @@ class Game extends Model
 
     public function userGame(): HasMany
     {
-        return $this->hasMany(GameToUser::class, 'id', 'game_id');
+        return $this->hasMany(GameToUser::class, 'game_id', 'id');
     }
 
     public function questionLine(): HasOne
     {
         return $this->hasOne(QuestLine::class, 'id', 'quest_line_id');
+    }
+
+    public function points(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Point::class,
+            GameToPoint::class,
+            'game_id',
+            'id',
+            'id',
+            'point_id');
+    }
+
+    public function currentPoint(): HasMany
+    {
+        return $this->hasMany(GameToPoint::class, 'game_id', 'id');
     }
 
 }

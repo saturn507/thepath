@@ -108,4 +108,10 @@ class NewGameCommand
         $this->send();
     }
 
+    public function notExistsGameMessage()
+    {
+        $this->setText('У Вас нет созданых игр');
+        $this->send();
+    }
+
 }

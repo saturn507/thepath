@@ -48,8 +48,8 @@ class GameCallback
             $this->delete();
 
             $text = "Новая игра создана." . PHP_EOL .
-                "Вы можете добавить в каманду еще 3 участников командой" . PHP_EOL .
-                "/my_team";
+                "Вы можете добавить в каманду еще 3 участников" . PHP_EOL .
+                "командой /my_team";
             $this->setText($text);
 
             $this->createButton([[
@@ -93,6 +93,20 @@ class GameCallback
 
     public function startGame()
     {
+        $newGame = new NewGame();
+        $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
 
+        if(!is_null($obj)){
+            $data = $newGame->startGame($obj->id);
+            $this->delete();
+
+            $text = "Необходимо пройти по адресу." . PHP_EOL .
+                $data['location'] . PHP_EOL .
+                "и ответить на вопрос" . PHP_EOL . $data['question'];
+            $this->setText($text);
+            $this->send();
+        } else {
+            (new NewGameCommand($this->data))->notExistsGameMessage();
+        }
     }
 }
