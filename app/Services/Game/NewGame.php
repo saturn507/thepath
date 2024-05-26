@@ -7,6 +7,7 @@ use App\Models\GameToPoint;
 use App\Models\QuestLine;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use DB;
 
 class NewGame
 {
