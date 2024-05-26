@@ -44,7 +44,7 @@ class GameCallback
         $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
 
         if(is_null($obj)){
-            $newGame->createGame();
+            $newGame->createGame($this->data);
             $this->delete();
 
             $text = "Новая игра создана." . PHP_EOL .
