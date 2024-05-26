@@ -97,7 +97,7 @@ class GameCallback
         $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
 
         if(!is_null($obj)){
-            $data = $newGame->nexQuestion($obj->id, true);
+            $data = $newGame->nexQuestion($obj->id,true);
             $this->delete();
 
             $text = "Необходимо пройти по адресу." . PHP_EOL .

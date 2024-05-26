@@ -123,11 +123,17 @@ class NewGame
 
         $point = $this->getNextLocation($gameId);
 
+        $point = $point->points[0] ?? null;
+
+        if(is_null($point))
+            return false;
+
         $data = [
             'location' => Location::find($point->points[0]->location_id)->name,
             'question_id' => $point->points[0]->id,
             'question' => $point->points[0]->question,
             'answer' => $point->points[0]->answer,
+            'next' => $point->points[0]->question ?? false
         ];
 
         return $data;
@@ -142,6 +148,11 @@ class NewGame
                 'completed' => true,
                 'answer' => $answer['answer']
             ]);
+    }
+
+    public function finishGame($game)
+    {
+        dd($game);
     }
 
 }

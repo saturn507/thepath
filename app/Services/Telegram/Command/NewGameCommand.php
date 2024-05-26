@@ -118,10 +118,10 @@ class NewGameCommand
     {
         $newGame = new NewGame();
         $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
+
         if(!is_null($obj)){
             $question = $newGame->nexQuestion($obj->id);
-
-
+            dd($question);
             $answer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $question['answer']));
             $possibleAnswer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $this->data['text']));
 
@@ -130,12 +130,19 @@ class NewGameCommand
 
                 $next = $newGame->nexQuestion($obj->id);
 
-                $text = "Необходимо пройти по адресу." . PHP_EOL .
-                    $next['location'] . PHP_EOL .
-                    "и ответить на вопрос" . PHP_EOL . $next['question'];
-                $this->setText($text);
-                $this->send();
-
+                if($next){
+                    $text = "Необходимо пройти по адресу." . PHP_EOL .
+                        $next['location'] . PHP_EOL .
+                        "и ответить на вопрос" . PHP_EOL . $next['question'];
+                    $this->setText($text);
+                    $this->send();
+                } else {
+                    $newGame->finishGame($obj->id);
+                    $text = "Вы выполнили все задания." . PHP_EOL .
+                        "Поздравляем!";
+                    $this->setText($text);
+                    $this->send();
+                }
             } else {
                 $this->setText('Ответ не верный, попробуйте еще раз');
                 $this->send();
