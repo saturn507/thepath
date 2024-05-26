@@ -129,11 +129,10 @@ class NewGame
             return false;
 
         $data = [
-            'location' => Location::find($point->points[0]->location_id)->name,
-            'question_id' => $point->points[0]->id,
-            'question' => $point->points[0]->question,
-            'answer' => $point->points[0]->answer,
-            'next' => $point->points[0]->question ?? false
+            'location' => Location::find($point->location_id)->name,
+            'question_id' => $point->id,
+            'question' => $point->question,
+            'answer' => $point->answer,
         ];
 
         return $data;
@@ -150,9 +149,11 @@ class NewGame
             ]);
     }
 
-    public function finishGame($game)
+    public function finishGame(Game $game)
     {
-        dd($game);
+        $game->finish_at = Carbon::now();
+        $game->act = false;
+        $game->save();
     }
 
 }

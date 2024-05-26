@@ -121,7 +121,11 @@ class NewGameCommand
 
         if(!is_null($obj)){
             $question = $newGame->nexQuestion($obj->id);
-            dd($question);
+
+            if(!$question){
+                $this->finishGame($obj);
+            }
+
             $answer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $question['answer']));
             $possibleAnswer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $this->data['text']));
 
@@ -137,11 +141,7 @@ class NewGameCommand
                     $this->setText($text);
                     $this->send();
                 } else {
-                    $newGame->finishGame($obj->id);
-                    $text = "Вы выполнили все задания." . PHP_EOL .
-                        "Поздравляем!";
-                    $this->setText($text);
-                    $this->send();
+                    $this->finishGame($obj);
                 }
             } else {
                 $this->setText('Ответ не верный, попробуйте еще раз');
@@ -149,6 +149,16 @@ class NewGameCommand
             }
 
         }
+    }
+
+    private function finishGame(Game $game)
+    {
+        $newGame = new NewGame();
+        $newGame->finishGame($game);
+        $text = "Вы выполнили все задания." . PHP_EOL .
+            "Поздравляем!";
+        $this->setText($text);
+        $this->send();
     }
 
 }
