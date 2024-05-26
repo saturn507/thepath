@@ -126,7 +126,7 @@ class NewGameCommand
             $possibleAnswer = strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $this->data['text']));
 
             if($answer == $possibleAnswer){
-                $newGame->correctAnswer($obj, $question['answer']);
+                $newGame->correctAnswer($obj, $question);
 
                 $next = $newGame->nexQuestion($obj->id);
 
