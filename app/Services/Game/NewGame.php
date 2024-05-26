@@ -72,14 +72,13 @@ class NewGame
                 ->select('point_id')
                 ->where('quest_line_id', $game->quest_line_id)
                 ->orderBy('id')
-                ->get()
                 ->pluck('point_id');
 
             $pointArray = [];
             foreach ($points as $point){
                 $pointArray[] = [
                     'game_id' => $game->id,
-                    'point_id' => $point->point_id,
+                    'point_id' => $point,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ];
