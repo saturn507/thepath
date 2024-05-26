@@ -122,8 +122,8 @@ class NewGameCommand
             $question = $newGame->nexQuestion($obj->id);
 
 
-            $answer = strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $question['answer']));
-            $possibleAnswer = strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $this->data['text']));
+            $answer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $question['answer']));
+            $possibleAnswer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $this->data['text']));
 
             if($answer == $possibleAnswer){
                 $newGame->correctAnswer($obj, $question);
