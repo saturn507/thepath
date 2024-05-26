@@ -44,19 +44,22 @@ class GameCallback
         $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
 
         if(is_null($obj)){
-            $game = Game::create([
-                'quest_line_id' => $this->data['callback_data'][1],
-                'start_at' => Carbon::now()
-            ]);
-
-            $game->userGame()->insert([
-                'game_id' => $game->id,
-                'user_id' => $this->data['user_id'],
-                'capitan' => true,
-                'confirmed' => true
-            ]);
-
+            $newGame->createGame();
             $this->delete();
+
+            $text = "Новая игра создана." . PHP_EOL .
+                "Вы можете добавить в каманду еще 3 участников командой" . PHP_EOL .
+                "/my_team";
+            $this->setText($text);
+
+            $this->createButton([[
+                [
+                    'text' => 'Получить первую точку',
+                    'callback_data' => 'start_game',
+                ]
+            ]]);
+
+            $this->send();
         } else {
             (new NewGameCommand($this->data))->existsGameMessage($obj);
         }
@@ -86,5 +89,10 @@ class GameCallback
                     'act' => false,
                 ]);
         }
+    }
+
+    public function startGame()
+    {
+
     }
 }

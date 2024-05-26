@@ -25,6 +25,7 @@ class TgCallback
 
         match ($this->data['callback']) {
             'create_game' => (new GameCallback($this->data))->createGame(),
+            'start_game' => (new GameCallback($this->data))->startGame(),
             'description_game' => (new GameCallback($this->data))->descriptionGame(),
             'list_game' => (new GameCallback($this->data))->listGame(),
             'delete_callback' => $this->deleteCallback(),

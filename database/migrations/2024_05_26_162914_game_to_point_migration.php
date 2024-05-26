@@ -11,18 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quest_line_to_points', function (Blueprint $table) {
+        Schema::create('game_to_points', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('quest_line_id')
-                ->constrained('quest_lines')
+            $table->foreignId('game_id')
+                ->constrained('games')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('point_id')
                 ->constrained('points')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->boolean('completed')->nullable(false)->default(false);
+            $table->string('answer')->nullable();
 
-            $table->index('quest_line_id');
+            $table->timestamps();
+
+            $table->index('game_id');
         });
     }
 
@@ -31,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quest_line_to_points');
+        Schema::dropIfExists('game_to_points');
     }
 };
