@@ -5,6 +5,7 @@ namespace App\Services\Game;
 use App\Models\Game;
 use App\Models\GameToPoint;
 use App\Models\QuestLine;
+use App\Models\QuestLineToPoint;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use DB;
