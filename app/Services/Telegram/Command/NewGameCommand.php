@@ -129,7 +129,7 @@ class NewGameCommand
             $answer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $question['answer']));
             $possibleAnswer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $this->data['text']));
 
-            if(\App\Services\Game\Game::checkAnswer($obj, $this->data['text'])/*$answer == $possibleAnswer*/){
+            if(\App\Services\Game\Game::checkAnswer($obj->id, $this->data['text'])/*$answer == $possibleAnswer*/){
                 $newGame->correctAnswer($obj, $question);
 
                 $next = $newGame->nexQuestion($obj->id);
