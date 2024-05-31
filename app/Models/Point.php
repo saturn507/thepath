@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Point extends Model
@@ -22,5 +23,10 @@ class Point extends Model
     public function location(): HasOne
     {
         return $this->hasOne(Location::class, 'id', 'location_id');
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(PointToAnswer::class, 'point_id', 'id');
     }
 }

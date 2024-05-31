@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('point_to_answers', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('point_id')
                 ->constrained('points')
                 ->onUpdate('cascade')
