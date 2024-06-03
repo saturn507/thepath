@@ -9,6 +9,7 @@ use App\Models\Game as GameModel;
 
 class Game
 {
+    private static ?object $currentGame;
     public static function checkCurrentGameFromUser($userId)
     {
         $currentGame = GameModel::query()
@@ -20,6 +21,8 @@ class Game
             ->where('act', true)
             ->whereNull('finish_at')
             ->first();
+
+        self::$currentGame = $currentGame;
 
         if($currentGame)
             return $currentGame;

@@ -3,6 +3,7 @@
 namespace App\Services\Telegram\Command;
 
 use App\Models\Game;
+use App\Services\Game\Game as GameService;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\TgMessageService;
 
@@ -117,7 +118,7 @@ class NewGameCommand
     public function answer()
     {
         $newGame = new NewGame();
-        $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
+        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
 
         if(!is_null($obj)){
             $question = $newGame->nexQuestion($obj->id);
@@ -126,10 +127,7 @@ class NewGameCommand
                 $this->finishGame($obj);
             }
 
-            $answer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $question['answer']));
-            $possibleAnswer = mb_strtolower(preg_replace( "/[^a-zA-ZА-Яа-я0-9]/ui", '', $this->data['text']));
-
-            if(\App\Services\Game\Game::checkAnswer($question['question_id'], $this->data['text'])/*$answer == $possibleAnswer*/){
+            if(GameService::checkAnswer($question['question_id'], $this->data['text'])/*$answer == $possibleAnswer*/){
                 $newGame->correctAnswer($obj, $question);
 
                 $next = $newGame->nexQuestion($obj->id);

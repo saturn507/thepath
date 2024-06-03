@@ -2,11 +2,12 @@
 
 namespace App\Services\Game;
 
-use App\Models\Game;
+use App\Models\Game as GameModel;
 use App\Models\GameToPoint;
 use App\Models\Location;
 use App\Models\QuestLine;
 use App\Models\QuestLineToPoint;
+use App\Services\Game\Game as GameService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use DB;
@@ -16,7 +17,7 @@ class NewGame
 
     public function list($data)
     {
-        $currentGame = $this->checkCurrentGameFromUser($data['user_id']);
+        $currentGame = GameService::checkCurrentGameFromUser($data['user_id']);
 
         if(!is_null($currentGame))
             return ['exists' => $currentGame];
@@ -39,27 +40,9 @@ class NewGame
         return QuestLine::where('act', true)->count();
     }
 
-    public function checkCurrentGameFromUser($userId)
-    {
-        $currentGame = Game::query()
-            ->with('questionLine')
-            ->whereHas(
-                'users',
-                fn(Builder $builder) => $builder->where('id', $userId)
-            )
-            ->where('act', true)
-            ->whereNull('finish_at')
-            ->first();
-
-        if($currentGame)
-            return $currentGame;
-
-        return null;
-    }
-
     public function getNextLocation($gameId)
     {
-        return Game::query()
+        return GameModel::query()
             ->with('points', fn($builder) =>
                 $builder->where('completed', false)
                     ->orderBy('game_to_points.id')
@@ -82,7 +65,7 @@ class NewGame
     public function createGame($data)
     {
         DB::transaction(function () use ($data) {
-            $game = Game::query()->create([
+            $game = GameModel::query()->create([
                 'quest_line_id' => $data['callback_data'][1]
             ]);
 
@@ -116,7 +99,7 @@ class NewGame
     public function nexQuestion($gameId, $start = false)
     {
         if($start){
-            Game::query()
+            GameModel::query()
                 ->where('id', $gameId)
                 ->update(['start_at' => Carbon::now()]);
         }
