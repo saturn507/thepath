@@ -123,7 +123,7 @@ class NewGameCommand
 
         if(!is_null($obj)){
             $question = $newGame->nexQuestion($obj->id);
-
+            //dd(Storage::disk('point')->url($question['question_img']));
             if(!$question){
                 $this->finishGame($obj);
             }
@@ -138,7 +138,7 @@ class NewGameCommand
                         $next['location'] . PHP_EOL .
                         "и ответить на вопрос" . PHP_EOL . $next['question'];
                     if(!is_null($next['question_img'])){
-                        $url = Storage::disk('point')->url($question['question_img']);
+                        $url = Storage::disk('point')->url($next['question_img']);
                         $this->setImg($url);
                     }
 
