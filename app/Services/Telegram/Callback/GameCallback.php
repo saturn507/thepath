@@ -7,6 +7,7 @@ use App\Services\Game\NewGame;
 use App\Services\Telegram\Command\NewGameCommand;
 use App\Services\Telegram\TgMessageService;
 use Carbon\Carbon;
+use App\Services\Game\Game as GameService;
 
 class GameCallback
 {
@@ -94,7 +95,8 @@ class GameCallback
     public function startGame()
     {
         $newGame = new NewGame();
-        $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
+
+        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
 
         if(!is_null($obj)){
             $data = $newGame->nexQuestion($obj->id,true);
