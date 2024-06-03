@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 trait TgMessageService
 {
     private string $text = '';
+    private ?string $img = null;
     private array $button = [];
 
     public function send(): void
@@ -24,10 +25,34 @@ trait TgMessageService
                 'one_time_keyboard' => TRUE
             ]);
         }
-        //dd($this->button);
+
+        if(!is_null($this->img)){
+            $data = [
+                'chat_id' => $this->data['chat_id'],
+                'caption' => $this->getText(),
+                'photo' => $this->img
+            ];
+            $this->push('sendPhoto', $data);
+        } else {
+            $this->push('sendMessage', $data);
+        }
+    }
+
+    public function delete()
+    {
+        $data = [
+            'chat_id' => $this->data['chat_id'],
+            'message_id' => $this->data['message_id'],
+        ];
+
+        $this->push('deleteMessage', $data);
+    }
+
+    private function push($method, $data)
+    {
         $res = Http::post(
-            'https://api.telegram.org/bot7178639784:AAGbpIsLVJqVQMGdE3Bd0oO6UrDhj-2vYyk/sendMessage',
-                $data
+            'https://api.telegram.org/bot7178639784:AAGbpIsLVJqVQMGdE3Bd0oO6UrDhj-2vYyk/' . $method,
+            $data
         );
 
         //dd($res->body());
@@ -35,17 +60,6 @@ trait TgMessageService
         if($res->status() == 403){
             TgUser::where('chat_id', $this->webhookData['chat_id'])->update(['act' => false]);
         }
-    }
-
-    public function delete()
-    {
-        Http::post(
-            'https://api.telegram.org/bot7178639784:AAGbpIsLVJqVQMGdE3Bd0oO6UrDhj-2vYyk/deleteMessage',
-            [
-                'chat_id' => $this->data['chat_id'],
-                'message_id' => $this->data['message_id'],
-            ]
-        );
     }
 
     public function setText($text): void
@@ -56,6 +70,16 @@ trait TgMessageService
     private function getText(): string
     {
         return $this->text;
+    }
+
+    public function setImg($img): void
+    {
+        $this->img = $img;
+    }
+
+    private function getImg(): string
+    {
+        return $this->img;
     }
 
     public function createButton($array)

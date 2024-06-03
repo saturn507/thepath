@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Services\Game\Game as GameService;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\TgMessageService;
+use Illuminate\Support\Facades\Storage;
 
 class NewGameCommand
 {
@@ -136,6 +137,11 @@ class NewGameCommand
                     $text = "Необходимо пройти по адресу." . PHP_EOL .
                         $next['location'] . PHP_EOL .
                         "и ответить на вопрос" . PHP_EOL . $next['question'];
+                    if(!is_null($next['question_img'])){
+                        $url = Storage::disk('point')->url($question['question_img']);
+                        $this->setImg($url);
+                    }
+
                     $this->setText($text);
                     $this->send();
                 } else {

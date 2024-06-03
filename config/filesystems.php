@@ -46,8 +46,8 @@ return [
 
         'point' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/points'),
-            'url' => env('APP_URL').'/storage/points',
+            'root' => storage_path('app/public/img/points'),
+            'url' => env('APP_URL').'/img',
             'visibility' => 'public',
             'throw' => false,
         ],

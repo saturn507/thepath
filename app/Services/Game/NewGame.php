@@ -116,6 +116,8 @@ class NewGame
             'question_id' => $point->id,
             'question' => $point->question,
             'answer' => $point->answer,
+            'answer_img' => $point->answer_img,
+            'question_img' => $point->question_img,
         ];
 
         return $data;
