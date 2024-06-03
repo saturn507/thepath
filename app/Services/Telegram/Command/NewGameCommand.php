@@ -134,7 +134,7 @@ class NewGameCommand
                 $next = $newGame->nexQuestion($obj->id);
 
                 if($next){
-                    $text = "Необходимо пройти по адресу." . PHP_EOL .
+                    $text = "Вам нужно быть здесь: " . PHP_EOL .
                         $next['location'] . PHP_EOL .
                         "и ответить на вопрос" . PHP_EOL . $next['question'];
                     if(!is_null($next['question_img'])){
