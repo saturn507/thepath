@@ -132,7 +132,7 @@ class NewGame
             ]);
     }
 
-    public function finishGame(Game $game)
+    public function finishGame(GameModel $game)
     {
         $game->finish_at = Carbon::now();
         $game->act = false;

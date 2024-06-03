@@ -42,7 +42,7 @@ class GameCallback
     public function createGame()
     {
         $newGame = new NewGame();
-        $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
+        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
 
         if(is_null($obj)){
             $newGame->createGame($this->data);
