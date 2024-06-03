@@ -148,7 +148,7 @@ class NewGameCommand
                     $this->finishGame($obj);
                 }
             } else {
-                $this->setText('Ответ не верный, попробуйте еще раз');
+                $this->setText('Ответ неверный, попробуйте еще раз');
                 $this->send();
             }
 
