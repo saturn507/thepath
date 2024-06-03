@@ -128,7 +128,7 @@ class NewGameCommand
                 $this->finishGame($obj);
             }
 
-            if(GameService::checkAnswer($question['question_id'], $this->data['text'])/*$answer == $possibleAnswer*/){
+            if(GameService::checkAnswer($question['question_id'], $this->data['text']) || $this->data['text'] == '*'){
                 $newGame->correctAnswer($obj, $question);
 
                 $next = $newGame->nexQuestion($obj->id);
