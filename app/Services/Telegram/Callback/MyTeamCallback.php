@@ -35,7 +35,7 @@ class MyTeamCallback
             }
 
             if(count($arr) > 0){
-                $this->createButton($arr);
+                $this->createButton(array_chunk($arr, 2));
                 $this->send();
             } else {
                 $this->setText('Нет пользователейдля удаления, капитана удалить нельзя.');
