@@ -4,6 +4,7 @@ namespace App\Services\Telegram;
 
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Callback\GameCallback;
+use App\Services\Telegram\Callback\MyTeamCallback;
 use App\Services\Telegram\Command\MyTeamCommand;
 use App\Services\Telegram\Command\NewGameCommand;
 
@@ -32,8 +33,8 @@ class TgCallback
             'delete_callback' => $this->deleteCallback(),
             'finish_game' => (new GameCallback($this->data))->finishGame(),
             'next_question' => (new GameCallback($this->data))->nextQuestion(),
-            'my_team_user_add' => (new MyTeamCommand($this->data)),
-            'my_team_user_delete' => $this->missCommand(),
+            'my_team_user_add' => $this->missCommand(),
+            'my_team_user_delete' => (new MyTeamCallback($this->data))->userTeamDelete(),
             'my_team_user_capitan_change' => $this->missCommand(),
             default => $this->missCommand(),
         };
