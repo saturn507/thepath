@@ -137,7 +137,7 @@ class NewGameCommand
 
                     $text = "Поздравляем! Вы правильно ответили.";
 
-                    $button[] = [
+                    /*$button[] = [
                         'text' => 'Следущие задание',
                         'callback_data' => 'start_game',
                     ];
@@ -149,7 +149,7 @@ class NewGameCommand
                         ];
                     }
 
-                    $this->createButton(array_chunk($button, 2));
+                    $this->createButton(array_chunk($button, 2));*/
 
                     if(!is_null($next['answer_img'])){
                         $url = Storage::disk('point')->url($next['answer_img']);
