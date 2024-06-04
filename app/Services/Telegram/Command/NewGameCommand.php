@@ -151,8 +151,8 @@ class NewGameCommand
 
                     $this->createButton(array_chunk($button, 2));
 
-                    if(!is_null($next['answer_img'])){
-                        $url = Storage::disk('point')->url($next['answer_img']);
+                    if(!is_null($question['answer_img'])){
+                        $url = Storage::disk('point')->url($question['answer_img']);
                         $this->setImg($url);
                     }
 
