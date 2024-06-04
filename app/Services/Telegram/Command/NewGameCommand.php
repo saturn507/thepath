@@ -155,7 +155,6 @@ class NewGameCommand
                     if(!is_null($question['answer_img'])){
                         $url = Storage::disk('point')->url($question['answer_img']);
                         $this->setImg($url);
-                        Log::alert($url);
                     }
 
                     $this->setText($text);

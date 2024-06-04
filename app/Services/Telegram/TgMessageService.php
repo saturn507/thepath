@@ -4,6 +4,7 @@ namespace App\Services\Telegram;
 
 use App\Models\Telegram\TgUser;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 trait TgMessageService
 {
@@ -51,6 +52,7 @@ trait TgMessageService
             $data
         );
 
+        Log::alert($res->body());
         //dd($res->body());
 
         if($res->status() == 403){
