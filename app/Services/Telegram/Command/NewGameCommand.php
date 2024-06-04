@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Services\Game\Game as GameService;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\TgMessageService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class NewGameCommand
@@ -154,6 +155,7 @@ class NewGameCommand
                     if(!is_null($question['answer_img'])){
                         $url = Storage::disk('point')->url($question['answer_img']);
                         $this->setImg($url);
+                        Log::alert($url);
                     }
 
                     $this->setText($text);
