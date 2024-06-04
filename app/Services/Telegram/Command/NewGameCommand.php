@@ -139,7 +139,7 @@ class NewGameCommand
 
                     $button[] = [
                         'text' => 'Следущие задание',
-                        'callback_data' => 'start_game',
+                        'callback_data' => 'next_question',
                     ];
 
                     if(!is_null($question['historical_reference'])){

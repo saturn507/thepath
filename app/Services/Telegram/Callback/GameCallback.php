@@ -117,4 +117,30 @@ class GameCallback
             (new NewGameCommand($this->data))->notExistsGameMessage();
         }
     }
+
+    public function nextQuestion()
+    {
+        $newGame = new NewGame();
+
+        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
+
+        if(!is_null($obj)){
+            $data = $newGame->nexQuestion($obj->id);
+            $this->delete();
+
+            $text = "Вам нужно быть здесь: " . PHP_EOL .
+                $data['location'] . PHP_EOL .
+                "Ответьте на вопрос:" . PHP_EOL . $data['question'];
+
+            if(!is_null($data['question_img'])){
+                $url = Storage::disk('point')->url($data['question_img']);
+                $this->setImg($url);
+            }
+
+            $this->setText($text);
+            $this->send();
+        } else {
+            (new NewGameCommand($this->data))->notExistsGameMessage();
+        }
+    }
 }
