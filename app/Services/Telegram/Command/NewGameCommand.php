@@ -36,7 +36,7 @@ class NewGameCommand
 
     private function newGame($obj): void
     {
-        $this->setText('Выбирите квест:');
+        $this->setText('Выберите квест:');
 
         $arr = [];
         foreach($obj as $value){
