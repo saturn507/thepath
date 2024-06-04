@@ -2,7 +2,7 @@
 
 namespace App\Services\Telegram\Callback;
 
-use App\Models\Game;
+use App\Models\Game as GameModel;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Command\NewGameCommand;
 use App\Services\Telegram\TgMessageService;
@@ -82,15 +82,17 @@ class GameCallback
     {
         $this->delete();
 
-        $newGame = new NewGame();
-        $obj = $newGame->checkCurrentGameFromUser($this->data['user_id']);
+        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
         if (!is_null($obj)){
-            Game::query()
+            GameModel::query()
                 ->where('id', $obj->id)
                 ->update([
                     'act' => false,
                 ]);
         }
+
+        $this->setText("Игра закончена");
+        $this->send();
     }
 
     public function startGame()
