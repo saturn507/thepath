@@ -135,7 +135,7 @@ class NewGameCommand
 
                 if($next){
 
-                    /*$text = "Поздравляем! Вы правильно ответили.";
+                    $text = "Поздравляем! Вы правильно ответили.";
 
                     $button[] = [
                         'text' => 'Следущие задание',
@@ -157,10 +157,10 @@ class NewGameCommand
                     }
 
                     $this->setText($text);
-                    $this->send();*/
+                    $this->send();
 
 
-                    $text = "Вам нужно быть здесь: " . PHP_EOL .
+                    /*$text = "Вам нужно быть здесь: " . PHP_EOL .
                         $next['location'] . '.' . PHP_EOL .
                         "Ответьте на вопрос:" . PHP_EOL . $next['question'];
                     if(!is_null($next['question_img'])){
@@ -169,7 +169,7 @@ class NewGameCommand
                     }
 
                     $this->setText($text);
-                    $this->send();
+                    $this->send();*/
                 } else {
                     $this->finishGame($obj);
                 }
