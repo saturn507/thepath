@@ -28,13 +28,14 @@ class MyTeamCallback
             foreach($users as $k => $user){
                 if(!$user['capitan']){
                     $arr[] = [
-                        'text' => 'Удалить',
+                        'text' =>  $user['first_name'] . ' ' . $user['last_name'] . ' ' . $user['username'],
                         'callback_data' => 'my_team_user_delete.' . $k,
                     ];
                 }
             }
 
             if(count($arr) > 0){
+                $this->setText('Кого?');
                 $this->createButton(array_chunk($arr, 2));
                 $this->send();
             } else {
