@@ -31,6 +31,11 @@ class Game extends Model
             'user_id');
     }
 
+    public function tgUsers(): HasMany
+    {
+
+    }
+
     public function userGame(): HasMany
     {
         return $this->hasMany(GameToUser::class, 'game_id', 'id');

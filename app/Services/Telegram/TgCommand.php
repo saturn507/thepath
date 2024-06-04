@@ -2,6 +2,7 @@
 
 namespace App\Services\Telegram;
 
+use App\Services\Telegram\Command\MyTeamCommand;
 use App\Services\Telegram\Command\NewGameCommand;
 
 class TgCommand
@@ -18,7 +19,7 @@ class TgCommand
     {
         match ($this->data['command']) {
             'new_game' => (new NewGameCommand($this->data))->listGame(),
-            'my_team' => $this->missCommand(),
+            'my_team' => (new MyTeamCommand($this->data))->myTeamList(),
             default => $this->missCommand(),
         };
 
