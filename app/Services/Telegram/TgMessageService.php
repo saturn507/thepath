@@ -15,7 +15,6 @@ trait TgMessageService
     {
         $data = [
             'chat_id' => $this->data['chat_id'],
-            'text' => $this->getText(),
         ];
 
         if(count($this->button) > 0) {
@@ -28,12 +27,13 @@ trait TgMessageService
 
         if(!is_null($this->img)){
             $data = [
-                'chat_id' => $this->data['chat_id'],
                 'caption' => $this->getText(),
                 'photo' => $this->img
             ];
+
             $this->push('sendPhoto', $data);
         } else {
+            $data['text'] = $this->getText();
             $this->push('sendMessage', $data);
         }
     }

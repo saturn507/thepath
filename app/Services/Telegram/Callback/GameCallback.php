@@ -102,9 +102,15 @@ class GameCallback
             $data = $newGame->nexQuestion($obj->id,true);
             $this->delete();
 
-            $text = "Необходимо пройти по адресу." . PHP_EOL .
+            $text = "Вам нужно быть здесь: " . PHP_EOL .
                 $data['location'] . PHP_EOL .
-                "и ответить на вопрос" . PHP_EOL . $data['question'];
+                "Ответьте на вопрос:" . PHP_EOL . $data['question'];
+
+            if(!is_null($data['question_img'])){
+                $url = Storage::disk('point')->url($data['question_img']);
+                $this->setImg($url);
+            }
+
             $this->setText($text);
             $this->send();
         } else {

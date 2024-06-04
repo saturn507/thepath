@@ -111,8 +111,11 @@ class NewGame
         if(is_null($point))
             return false;
 
+        $location = Location::find($point->location_id);
+
         $data = [
-            'location' => Location::find($point->location_id)->name,
+            'location' => $location->name,
+            'historical_reference' => $location->historical_reference,
             'question_id' => $point->id,
             'question' => $point->question,
             'answer' => $point->answer,

@@ -134,7 +134,33 @@ class NewGameCommand
                 $next = $newGame->nexQuestion($obj->id);
 
                 if($next){
-                    $text = "Вам нужно быть здесь: " . PHP_EOL .
+
+                    $text = "Поздравляем! Вы правильно ответили.";
+
+                    $button = [
+                        'text' => 'Следущие задание',
+                        'callback_data' => 'start_game',
+                    ];
+
+                    if(!is_null($question['historical_reference'])){
+                        $button[] = [
+                            'text' => 'Получить историческую справку',
+                            'callback_data' => 'history.' . $question['question_id'],
+                        ];
+                    }
+
+                    $this->createButton([$button]);
+
+                    if(!is_null($next['answer_img'])){
+                        $url = Storage::disk('point')->url($next['answer_img']);
+                        $this->setImg($url);
+                    }
+
+                    $this->setText($text);
+                    $this->send();
+
+
+                    /*$text = "Вам нужно быть здесь: " . PHP_EOL .
                         $next['location'] . '.' . PHP_EOL .
                         "Ответьте на вопрос:" . PHP_EOL . $next['question'];
                     if(!is_null($next['question_img'])){
@@ -143,7 +169,7 @@ class NewGameCommand
                     }
 
                     $this->setText($text);
-                    $this->send();
+                    $this->send();*/
                 } else {
                     $this->finishGame($obj);
                 }
