@@ -149,7 +149,7 @@ class NewGameCommand
                         ];
                     }
 
-                    $this->createButton([$button]);
+                    $this->createButton(array_chunk($button, 2));
 
                     if(!is_null($next['answer_img'])){
                         $url = Storage::disk('point')->url($next['answer_img']);
