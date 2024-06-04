@@ -137,7 +137,7 @@ class NewGameCommand
 
                     $text = "Поздравляем! Вы правильно ответили.";
 
-                    $button = [
+                    $button[] = [
                         'text' => 'Следущие задание',
                         'callback_data' => 'start_game',
                     ];
