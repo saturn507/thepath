@@ -13,9 +13,7 @@ trait TgMessageService
 
     public function send(): void
     {
-        $data = [
-            'chat_id' => $this->data['chat_id'],
-        ];
+        $data['chat_id'] = $this->data['chat_id'];
 
         if(count($this->button) > 0) {
             $data['reply_markup'] = json_encode([
@@ -26,10 +24,8 @@ trait TgMessageService
         }
 
         if(!is_null($this->img)){
-            $data = [
-                'caption' => $this->getText(),
-                'photo' => $this->img
-            ];
+            $data['caption'] = $this->getText();
+            $data['photo'] = $this->img;
 
             $this->push('sendPhoto', $data);
         } else {
