@@ -8,6 +8,7 @@ use App\Services\Telegram\Command\NewGameCommand;
 use App\Services\Telegram\TgMessageService;
 use Carbon\Carbon;
 use App\Services\Game\Game as GameService;
+use Illuminate\Support\Facades\Storage;
 
 class GameCallback
 {
