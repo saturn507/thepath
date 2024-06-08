@@ -16,12 +16,12 @@ trait TgMessageService
 
     public function __construct()
     {
-        $this->chatId = $this->data['chat_id'];
+        $this->chatId = $this->setChatId($this->data['chat_id']);
     }
 
     public function send(): void
     {
-        $data['chat_id'] = $this->chatId;
+        $data['chat_id'] = $this->getChatId();
 
         if(count($this->button) > 0) {
             $data['reply_markup'] = json_encode([
@@ -70,6 +70,11 @@ trait TgMessageService
     public function setChatId($chatId)
     {
         $this->chatId = $chatId;
+    }
+
+    private function getChatId()
+    {
+        return $this->chatId;
     }
     public function setText($text): void
     {
