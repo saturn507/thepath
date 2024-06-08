@@ -63,7 +63,7 @@ class MyTeamCallback
                 $this->send();
             }
         } else {
-            $text = 'Пользователь ' . $this->data['text'] . ' не найден';
+            $text = 'Пользователь @' . $this->data['text'] . ' не найден';
             $this->setText($text);
             $this->send();
         }
