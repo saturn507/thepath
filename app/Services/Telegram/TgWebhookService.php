@@ -4,11 +4,13 @@ namespace App\Services\Telegram;
 
 use App\Models\Telegram\TgUser;
 use App\Models\User;
+use App\Services\Game\Game as GameService;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Callback\GameCallback;
 use App\Services\Telegram\Command\NewGameCommand;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class TgWebhookService
@@ -22,6 +24,13 @@ class TgWebhookService
     public function run(): void
     {
         $this->checkUser();
+
+        $game = GameService::checkCurrentGameFromUser();
+        $cacheKey = 'game_state_' . $game->id;
+
+        if (Cache::has($cacheKey)) {
+            $this->data['callback'] = Cache::get($cacheKey);
+        }
 
         if(!is_null($this->data['command'])){
             (new TgCommand($this->data))->run();

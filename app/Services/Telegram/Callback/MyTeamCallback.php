@@ -2,6 +2,8 @@
 
 namespace App\Services\Telegram\Callback;
 
+use App\Models\GameToUser;
+use App\Models\Telegram\TgUser;
 use App\Services\Game\Game as GameService;
 use App\Services\Telegram\TgMessageService;
 use Illuminate\Support\Facades\Cache;
@@ -16,11 +18,11 @@ class MyTeamCallback
         $this->data = $data;
     }
 
-    public function userTeamAdd()
+    public function userTeamAddEnter()
     {
-        $game = GameService::checkCurrentGameFromUser($this->data['user_id']);
+        $game = GameService::checkCurrentGameFromUser();
         $cacheKey = 'game_state_' . $game->id;
-        $state = 'add_user';
+        $state = 'my_team_user_add';
 
         Cache::put($cacheKey, $state, 60*60);
 
@@ -28,6 +30,43 @@ class MyTeamCallback
         $text .= 'Пользователь должен быть подписан на телеграм бота @the_path_bot';
         $this->setText($text);
         $this->send();
+    }
+
+    public function userTeamAdd()
+    {
+        $userName = str_replace('@', '', $this->data['text']);
+
+        $tgUser = TgUser::where('username', $userName)->first();
+
+        if($tgUser){
+            $currentUsers = GameService::getGameUsers();
+            if(isset($currentUsers[$tgUser->user_id])){
+                $text = 'Этот пользовател уже в вашей команде';
+                $this->setText($text);
+                $this->send();
+            } else {
+                $game = GameService::checkCurrentGameFromUser();
+                GameToUser::create([
+                    'game_id' => $game->id,
+                    'user_id' => $tgUser->user_id
+                ]);
+
+                Cache::forget('users_game_' . $game->id);
+
+                $text = 'Пользователю отправлено приглашение';
+                $this->setText($text);
+                $this->send();
+
+                $text = 'Вас пригласили в команду';
+                $this->setChatId($tgUser->chat_id);
+                $this->setText($text);
+                $this->send();
+            }
+        } else {
+            $text = 'Пользователь ' . $this->data['text'] . ' не найден';
+            $this->setText($text);
+            $this->send();
+        }
     }
 
     public function userTeamDelete()

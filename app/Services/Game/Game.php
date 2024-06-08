@@ -6,15 +6,23 @@ use App\Helpers\AnswerHelper;
 use App\Models\GameToPoint;
 use App\Models\GameToUser;
 use App\Models\Point;
+use App\Services\Telegram\TgDTOService;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Game as GameModel;
 use Illuminate\Support\Facades\Cache;
 
 class Game
 {
-    private static ?object $currentGame;
-    public static function checkCurrentGameFromUser($userId)
+    private static ?object $currentGame = null;
+    public static function checkCurrentGameFromUser($userId = null)
     {
+        if(!is_null(self::$currentGame))
+            return self::$currentGame;
+
+        if(is_null($userId)){
+            $userId = TgDTOService::$tgData['user_id'];
+        }
+
         $currentGame = GameModel::query()
             ->with('questionLine')
             ->whereHas(

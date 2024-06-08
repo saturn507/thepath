@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 
 class TgDTOService
 {
+    public static array $tgData;
     public static function transformWbhookData(Request $request)
     {
-
-        return [
+        $data =  [
             'chat_id' => $request->input(
                 'message.chat.id',
                 $request->input('callback_query.message.chat.id')
@@ -45,5 +45,9 @@ class TgDTOService
                 $request->input('callback_query.message.message_id')
             ),
         ];
+
+        self::$tgData = $data;
+
+        return $data;
     }
 }

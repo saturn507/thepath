@@ -12,9 +12,16 @@ trait TgMessageService
     private ?string $img = null;
     private array $button = [];
 
+    private int $chatId;
+
+    public function __construct()
+    {
+        $this->chatId = $this->data['chat_id'];
+    }
+
     public function send(): void
     {
-        $data['chat_id'] = $this->data['chat_id'];
+        $data['chat_id'] = $this->chatId;
 
         if(count($this->button) > 0) {
             $data['reply_markup'] = json_encode([
@@ -38,7 +45,7 @@ trait TgMessageService
     public function delete()
     {
         $data = [
-            'chat_id' => $this->data['chat_id'],
+            'chat_id' => $this->chatId,
             'message_id' => $this->data['message_id'],
         ];
 
@@ -60,6 +67,10 @@ trait TgMessageService
         }
     }
 
+    public function setChatId($chatId)
+    {
+        $this->chatId = $chatId;
+    }
     public function setText($text): void
     {
         $this->text .= $text;
