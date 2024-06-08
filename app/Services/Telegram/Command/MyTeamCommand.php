@@ -35,7 +35,7 @@ class MyTeamCommand
             $arr = [
                 [
                     'text' => 'Пригласить',
-                    'callback_data' => 'my_team_user_add',
+                    'callback_data' => 'my_team_user_add_enter',
                 ],
                 [
                     'text' => 'Удалить',
