@@ -26,10 +26,12 @@ class TgWebhookService
         $this->checkUser();
 
         $game = GameService::checkCurrentGameFromUser();
-        $cacheKey = 'game_state_' . $game->id;
+        if($game){
+            $cacheKey = 'game_state_' . $game->id;
 
-        if (Cache::has($cacheKey)) {
-            $this->data['callback'] = Cache::get($cacheKey);
+            if (Cache::has($cacheKey)) {
+                $this->data['callback'] = Cache::get($cacheKey);
+            }
         }
 
         if(!is_null($this->data['command'])){
