@@ -64,6 +64,7 @@ class TgWebhookService
         ]);
 
         $this->data['user_id'] = $tgUser->user_id;
+        TgDTOService::$tgData['user_id'] = $tgUser->user_id;
 
         $tgUser = TgUser::create([
             'user_id' => $user->id,
@@ -81,6 +82,7 @@ class TgWebhookService
     private function userUpdate($tgUser)
     {
         $this->data['user_id'] = $tgUser->user_id;
+        TgDTOService::$tgData['user_id'] = $tgUser->user_id;
 
         $lastUpdate = Carbon::parse($tgUser->updated_at)->timestamp;
         $now = Carbon::now()->timestamp;
