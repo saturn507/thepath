@@ -16,7 +16,7 @@ class MyTeamCallback
         $this->data = $data;
     }
 
-    public function enterUserTeamAdd()
+    public function userTeamAdd()
     {
         $game = GameService::checkCurrentGameFromUser($this->data['user_id']);
         $cacheKey = 'game_state_' . $game->id;
