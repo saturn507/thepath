@@ -4,6 +4,7 @@ namespace App\Services\Telegram\Callback;
 
 use App\Services\Game\Game as GameService;
 use App\Services\Telegram\TgMessageService;
+use Illuminate\Support\Facades\Cache;
 
 class MyTeamCallback
 {
@@ -13,6 +14,20 @@ class MyTeamCallback
     public function __construct($data)
     {
         $this->data = $data;
+    }
+
+    public function enterUserTeamAdd()
+    {
+        $game = GameService::checkCurrentGameFromUser($this->data['user_id']);
+        $cacheKey = 'game_state_' . $game->id;
+        $state = 'add_user';
+
+        Cache::put($cacheKey, $state, 60*60);
+
+        $text = 'Отправте username пользователя telegram которого хотите добавить в команду.' . PHP_EOL;
+        $text .= 'Пользователь должен быть подписан на телеграм бота @the_path_bot';
+        $this->setText($text);
+        $this->send();
     }
 
     public function userTeamDelete()

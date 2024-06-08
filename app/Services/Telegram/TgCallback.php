@@ -33,7 +33,7 @@ class TgCallback
             'delete_callback' => $this->deleteCallback(),
             'finish_game' => (new GameCallback($this->data))->finishGame(),
             'next_question' => (new GameCallback($this->data))->nextQuestion(),
-            'my_team_user_add' => $this->missCommand(),
+            'my_team_user_add' => (new MyTeamCallback($this->data))->userTeamAdd(),
             'my_team_user_delete' => (new MyTeamCallback($this->data))->userTeamDelete(),
             'my_team_user_capitan_change' => $this->missCommand(),
             default => $this->missCommand(),
