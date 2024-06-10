@@ -73,6 +73,7 @@ class MyTeamCallback
 
                 $this->data['chat_id'] = $tgUser->chat_id;
                 $text = 'Вас пригласили в команду';
+                $this->resetText();
                 $this->setText($text);
                 $this->send();
             }

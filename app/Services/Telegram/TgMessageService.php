@@ -71,6 +71,11 @@ trait TgMessageService
         return $this->text;
     }
 
+    public function resetText()
+    {
+        $this->text = '';
+    }
+
     public function setImg($img): void
     {
         $this->img = $img;
