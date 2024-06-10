@@ -25,6 +25,9 @@ class TgCallback
         $this->data['callback'] = $callback[0];
         $this->data['callback_data'] = $callback;
 
+        TgDTOService::$tgData['callback'] = $callback[0];
+        TgDTOService::$tgData['callback_data'] = $callback;
+
         match ($this->data['callback']) {
             'create_game' => (new GameCallback($this->data))->createGame(),
             'start_game' => (new GameCallback($this->data))->startGame(),
