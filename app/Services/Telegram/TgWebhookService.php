@@ -2,6 +2,7 @@
 
 namespace App\Services\Telegram;
 
+use App\Models\Game as GameModel;
 use App\Models\Telegram\TgUser;
 use App\Models\User;
 use App\Services\Game\Game as GameService;
@@ -27,7 +28,7 @@ class TgWebhookService
 
         $game = GameService::checkCurrentGameFromUser();
         if($game){
-            $cacheKey = 'game_state_' . $game->id;
+            $cacheKey = GameModel::CACHE_GAME_STATE . $game->id;
 
             if (Cache::has($cacheKey)) {
                 $this->data['callback'] = Cache::get($cacheKey);

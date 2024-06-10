@@ -20,6 +20,9 @@ class Game extends Model
         'team_name'
     ];
 
+    const CACHE_GAME_STATE = 'game_state_';
+    const CACHE_GAME_USERS = 'game_users_';
+
     public function users(): HasManyThrough
     {
         return $this->hasManyThrough(

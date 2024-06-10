@@ -2,7 +2,7 @@
 
 namespace App\Services\Telegram\Callback;
 
-use App\Models\GameToUser;
+use App\Models\Game as GameModel;
 use App\Models\Telegram\TgUser;
 use App\Services\Game\Game as GameService;
 use App\Services\Telegram\TgMessageService;
@@ -21,7 +21,7 @@ class MyTeamCallback
     public function userTeamAddEnter()
     {
         $game = GameService::checkCurrentGameFromUser();
-        $cacheKey = 'game_state_' . $game->id;
+        $cacheKey = GameModel::CACHE_GAME_STATE . $game->id;
         $state = 'my_team_user_add';
 
         Cache::put($cacheKey, $state, 60*60);
@@ -52,7 +52,7 @@ class MyTeamCallback
                     'user_id' => $tgUser->user_id
                 ]);
 
-                $users = Cache::get(GameToUser::CACHE_GAME_USERS . $game->id);
+                $users = Cache::get(GameModel::CACHE_GAME_USERS . $game->id);
 
                 $users[$tgUser->user_id] = [
                     "capitan" => false,
@@ -62,7 +62,8 @@ class MyTeamCallback
                     "username" => "@" . $tgUser->username,
                 ];
 
-                Cache::put(GameToUser::CACHE_GAME_USERS . $game->id, $users, 60*60*8);
+                Cache::put(GameModel::CACHE_GAME_USERS . $game->id, $users, 60*60*8);
+                Cache::forget(GameModel::CACHE_GAME_STATE . $game->id);
 
 
                 $text = 'Пользователю отправлено приглашение';
@@ -94,9 +95,9 @@ class MyTeamCallback
                 ->where('user_id', $userId)
                 ->delete();
 
-            $users = Cache::get(GameToUser::CACHE_GAME_USERS . $game->id);
+            $users = Cache::get(GameModel::CACHE_GAME_USERS . $game->id);
             unset($users[$userId]);
-            Cache::put(GameToUser::CACHE_GAME_USERS . $game->id, $users, 60*60*8);
+            Cache::put(GameModel::CACHE_GAME_USERS . $game->id, $users, 60*60*8);
 
             $this->setText('Удален.');
             $this->send();

@@ -4,7 +4,6 @@ namespace App\Services\Game;
 
 use App\Helpers\AnswerHelper;
 use App\Models\GameToPoint;
-use App\Models\GameToUser;
 use App\Models\Point;
 use App\Services\Telegram\TgDTOService;
 use Illuminate\Database\Eloquent\Builder;
@@ -57,7 +56,7 @@ class Game
 
     public static function getGameUsers()
     {
-        $cacheKey = GameToUser::CACHE_GAME_USERS . self::$currentGame->id;
+        $cacheKey = GameModel::CACHE_GAME_USERS . self::$currentGame->id;
 
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);

@@ -23,8 +23,6 @@ class GameToUser extends Model
 
     protected $table = 'game_to_users';
 
-    const CACHE_GAME_USERS = 'game_users_';
-
     public function users(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
