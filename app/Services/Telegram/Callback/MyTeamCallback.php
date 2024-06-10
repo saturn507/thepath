@@ -6,6 +6,7 @@ use App\Models\Game as GameModel;
 use App\Models\GameToUser;
 use App\Models\Telegram\TgUser;
 use App\Services\Game\Game as GameService;
+use App\Services\Telegram\TgDTOService;
 use App\Services\Telegram\TgMessageService;
 use Illuminate\Support\Facades\Cache;
 
