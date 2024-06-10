@@ -48,7 +48,7 @@ trait TgMessageService
     private function push($method, $data)
     {
         $res = Http::post(
-            'https://api.telegram.org/bot7178639784:AAGbpIsLVJqVQMGdE3Bd0oO6UrDhj-2vYyk/' . $method,
+            'https://api.telegram.org/bot' . config('telegram.token') . '/' . $method,
             $data
         );
 
