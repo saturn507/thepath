@@ -40,6 +40,7 @@ class MyTeamCallback
 
         if($tgUser){
             $currentUsers = GameService::getGameUsers();
+
             if(isset($currentUsers[$tgUser->user_id])){
                 $text = 'Этот пользовател уже в вашей команде';
                 $this->setText($text);
@@ -51,7 +52,18 @@ class MyTeamCallback
                     'user_id' => $tgUser->user_id
                 ]);
 
-                Cache::forget('users_game_' . $game->id);
+                $users = Cache::get(GameToUser::CACHE_GAME_USERS . $game->id);
+
+                $users[$tgUser->user_id] = [
+                    "capitan" => false,
+                    "confirmed" => false,
+                    "first_name" => $tgUser->first_name,
+                    "last_name" => $tgUser->last_name,
+                    "username" => "@" . $tgUser->username,
+                ];
+
+                Cache::put(GameToUser::CACHE_GAME_USERS . $game->id, $users, 60*60*8);
+
 
                 $text = 'Пользователю отправлено приглашение';
                 $this->setText($text);
@@ -71,11 +83,24 @@ class MyTeamCallback
 
     public function userTeamDelete()
     {
-        if(isset($this->data['callback_data'][1])){
-            $this->setText('Удаляю.');
+        $game = GameService::checkCurrentGameFromUser();
+
+        if(isset(TgDTOService::$tgData['callback_data'][1])){
+
+            $userId = TgDTOService::$tgData['callback_data'][1];
+
+            GameToUser::query()
+                ->where('game_id', $game->id)
+                ->where('user_id', $userId)
+                ->delete();
+
+            $users = Cache::get(GameToUser::CACHE_GAME_USERS . $game->id);
+            unset($users[$userId]);
+            Cache::put(GameToUser::CACHE_GAME_USERS . $game->id, $users, 60*60*8);
+
+            $this->setText('Удален.');
             $this->send();
         } else {
-            GameService::checkCurrentGameFromUser($this->data['user_id']);
             $users = GameService::getGameUsers();
 
             $arr = [];
@@ -93,7 +118,7 @@ class MyTeamCallback
                 $this->createButton(array_chunk($arr, 2));
                 $this->send();
             } else {
-                $this->setText('Нет пользователейдля удаления, капитана удалить нельзя.');
+                $this->setText('Нет пользователей для удаления, капитана удалить нельзя.');
                 $this->send();
             }
         }

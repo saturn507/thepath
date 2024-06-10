@@ -33,10 +33,13 @@ class Game
             ->whereNull('finish_at')
             ->first();
 
-        self::$currentGame = $currentGame;
 
-        if($currentGame)
+        if($currentGame){
+            self::$currentGame = $currentGame;
+
             return $currentGame;
+        }
+
 
         return null;
     }
@@ -54,7 +57,7 @@ class Game
 
     public static function getGameUsers()
     {
-        $cacheKey = 'users_game_' . self::$currentGame->id;
+        $cacheKey = GameToUser::CACHE_GAME_USERS . self::$currentGame->id;
 
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);
