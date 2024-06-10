@@ -9,6 +9,7 @@ use App\Services\Game\Game as GameService;
 use App\Services\Telegram\TgDTOService;
 use App\Services\Telegram\TgMessageService;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class MyTeamCallback
 {
@@ -88,7 +89,7 @@ class MyTeamCallback
     public function userTeamDelete()
     {
         $game = GameService::checkCurrentGameFromUser();
-
+        Log::info(json_encode(TgDTOService::$tgData));
         if(isset(TgDTOService::$tgData['callback_data'][1])){
 
             $userId = TgDTOService::$tgData['callback_data'][1];
