@@ -17,7 +17,7 @@ class MyTeamCommand
 
     public function myTeamList()
     {
-        $game = GameService::checkCurrentGameFromUser($this->data['user_id']);
+        $game = GameService::checkCurrentGameFromUser();
 
         if($game){
             $text = 'Ваша команда:' . PHP_EOL . PHP_EOL;

@@ -3,7 +3,7 @@
 namespace App\Services\Game;
 
 use App\Helpers\AnswerHelper;
-use App\Models\GameToPoint;
+use App\Models\GameToUser;
 use App\Models\Point;
 use App\Services\Telegram\TgDTOService;
 use Illuminate\Database\Eloquent\Builder;
