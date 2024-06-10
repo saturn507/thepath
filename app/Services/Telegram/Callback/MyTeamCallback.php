@@ -74,9 +74,25 @@ class MyTeamCallback
                 $this->send();
 
                 $this->data['chat_id'] = $tgUser->chat_id;
-                $text = 'Вас пригласили в команду';
+                $text = 'Вас пригласили в команду.' . PHP_EOL;
+                $text .= 'На игру ' . $game->questionLine->name . '.';
+
                 $this->resetText();
                 $this->setText($text);
+
+                $arr = [
+                    [
+                        'text' =>  'Подтвердить участие',
+                        'callback_data' => 'my_team_user_confirm',
+                    ],
+                    [
+                        'text' =>  'Отказаться',
+                        'callback_data' => 'my_team_user_refuse',
+                    ]
+                ];
+
+                $this->createButton(array_chunk($arr, 2));
+
                 $this->send();
             }
         } else {
