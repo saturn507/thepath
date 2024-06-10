@@ -62,7 +62,7 @@ class NewGameCommand
 
     private function pagination()
     {
-        $this->data['pagination']['count'] = 4;
+        $this->data['pagination']['count'] = config('telegram.quest_lines_view_count');
 
         if (isset($this->data['page'])) {
             $this->data['pagination']['page'] = $this->data['page'];
