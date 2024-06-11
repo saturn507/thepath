@@ -50,7 +50,7 @@ class GameCallback
             $this->delete();
 
             $text = "Новая игра создана." . PHP_EOL .
-                "Вы можете добавить в каманду еще 3 участников" . PHP_EOL .
+                "Вы можете добавить в каманду еще 3-x участников" . PHP_EOL .
                 "командой /my_team";
             $this->setText($text);
 
@@ -67,7 +67,7 @@ class GameCallback
         }
     }
 
-    public function listGame()
+    public function gameList()
     {
         $this->delete();
 
@@ -75,7 +75,7 @@ class GameCallback
             $this->data['page'] = $this->data['callback_data'][1];
         }
 
-        (new NewGameCommand($this->data))->listGame();
+        (new NewGameCommand($this->data))->gameList();
     }
 
     public function finishGame()

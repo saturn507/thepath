@@ -19,7 +19,7 @@ class NewGameCommand
         $this->data = $data;
     }
 
-    public function listGame(): void
+    public function gameList(): void
     {
         $this->pagination();
 

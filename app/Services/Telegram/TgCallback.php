@@ -32,7 +32,7 @@ class TgCallback
             'create_game' => (new GameCallback($this->data))->createGame(),
             'start_game' => (new GameCallback($this->data))->startGame(),
             'description_game' => (new GameCallback($this->data))->descriptionGame(),
-            'list_game' => (new GameCallback($this->data))->listGame(),
+            'list_game' => (new GameCallback($this->data))->gameList(),
             'delete_callback' => $this->deleteCallback(),
             'finish_game' => (new GameCallback($this->data))->finishGame(),
             'next_question' => (new GameCallback($this->data))->nextQuestion(),

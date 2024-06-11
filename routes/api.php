@@ -23,4 +23,4 @@ Route::get('test', function () {
     echo "api ok";
 });
 
-Route::post('tg-webhook/de7231e20486abbaa75ed0b2600b9085',[TgWebhookController::class, 'getWebhook']);
+Route::post('telegram/de7231e20486abbaa75ed0b2600b9085/webhook',[TgWebhookController::class, 'getWebhook']);
