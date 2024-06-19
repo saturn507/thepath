@@ -40,8 +40,8 @@ class TgCallback
             'my_team_user_add' => (new MyTeamCallback($this->data))->userTeamAdd(),
             'my_team_user_delete' => (new MyTeamCallback($this->data))->userTeamDelete(),
             'my_team_user_capitan_change' => $this->missCommand(),
-            'my_team_user_confirm' => $this->missCommand(),
-            'my_team_user_refuse' => $this->missCommand(),
+            'my_team_user_confirm' => (new MyTeamCallback($this->data))->userTeamConfirm(),
+            'my_team_user_refuse' => (new MyTeamCallback($this->data))->userTeamRefuse(),
             default => $this->missCommand(),
         };
     }
