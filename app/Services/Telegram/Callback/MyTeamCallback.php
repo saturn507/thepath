@@ -172,7 +172,7 @@ class MyTeamCallback
         }
 
         $this->data['chat_id'] = $chatId;
-        $text = 'Поьзователь @' . TgDTOService::$tgData['username']. PHP_EOL;
+        $text = 'Пользователь @' . TgDTOService::$tgData['username']. PHP_EOL;
         $text .= 'подтвердил участие в игре'. PHP_EOL;
 
         $this->resetText();
@@ -184,9 +184,30 @@ class MyTeamCallback
     {
         $game = GameService::checkCurrentGameFromUser();
         $currentUsers = GameService::getGameUsers();
+        $userId = TgDTOService::$tgData['user_id'];
 
+        GameToUser::query()
+            ->where('game_id', $game->id)
+            ->where('user_id', $userId)
+            ->delete();
 
-        $userId = TgDTOService::$tgData['callback_data'][1];
+        $text = 'Вы покинули команду';
+        $this->setText($text);
+        $this->send();
+
+        $chatId = 1;
+        foreach ($currentUsers as $v){
+            if($v['capitan'])
+                $chatId = $v['chat_id'];
+        }
+
+        $this->data['chat_id'] = $chatId;
+        $text = 'Пользователь @' . TgDTOService::$tgData['username']. PHP_EOL;
+        $text .= 'отказался от участие в игре'. PHP_EOL;
+
+        $this->resetText();
+        $this->setText($text);
+        $this->send();
 
         $users = Cache::get(GameModel::CACHE_GAME_USERS . $game->id);
         unset($users[$userId]);
