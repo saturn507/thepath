@@ -9,11 +9,11 @@ use App\Services\Game\Game as GameService;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Callback\GameCallback;
 use App\Services\Telegram\Command\NewGameCommand;
+use App\Services\Telegram\TgDTOService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
-use App\Services\Telegram\TgDTOService;
 
 class TgWebhookService
 {
@@ -67,7 +67,7 @@ class TgWebhookService
             'password' =>Hash::make(self::$tgDTO['username'])
         ]);
 
-        self::$tgDTO['user_id'] = $tgUser->user_id;
+        TgDTOService::$tgData['user_id'] = $tgUser->user_id;
 
         $tgUser = TgUser::create([
             'user_id' => $user->id,
@@ -84,7 +84,7 @@ class TgWebhookService
 
     private function userUpdate($tgUser)
     {
-        self::$tgDTO['user_id'] = $tgUser->user_id;
+        TgDTOService::$tgData['user_id'] = $tgUser->user_id;
 
         $lastUpdate = Carbon::parse($tgUser->updated_at)->timestamp;
         $now = Carbon::now()->timestamp;
