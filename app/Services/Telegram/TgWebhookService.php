@@ -18,7 +18,7 @@ use App\Services\Telegram\TgDTOService;
 class TgWebhookService
 {
     private static ?array $tgDTO;
-    public function __construct($data)
+    public function __construct()
     {
         self::$tgDTO = TgDTOService::$tgData;
     }
