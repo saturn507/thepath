@@ -67,7 +67,7 @@ class MyTeamCallback
                 ];
 
                 Cache::put(GameModel::CACHE_GAME_USERS . $game->id, $users, 60*60*8);
-                //Cache::forget(GameModel::CACHE_GAME_STATE . $game->id);
+                Cache::forget(GameModel::CACHE_GAME_STATE . $game->id);
 
 
                 $text = 'Пользователю отправлено приглашение';
