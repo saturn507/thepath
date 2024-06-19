@@ -13,13 +13,14 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use App\Services\Telegram\TgDTOService;
 
 class TgWebhookService
 {
-    private array $data;
+    private static ?array $tgDTO;
     public function __construct($data)
     {
-        $this->data = $data;
+        self::$tgDTO = TgDTOService::$tgData;
     }
 
     public function run(): void
@@ -31,52 +32,51 @@ class TgWebhookService
             $cacheKey = GameModel::CACHE_GAME_STATE . $game->id;
 
             if (Cache::has($cacheKey)) {
-                $this->data['callback'] = Cache::get($cacheKey);
+                self::$tgDTO['callback'] = Cache::get($cacheKey);
             }
         }
 
-        if(!is_null($this->data['command'])){
-            (new TgCommand($this->data))->run();
+        if(!is_null(self::$tgDTO['command'])){
+            (new TgCommand(self::$tgDTO))->run();
             return;
         }
 
-        if(!is_null($this->data['callback'])){
-            (new TgCallback($this->data))->run();
+        if(!is_null(self::$tgDTO['callback'])){
+            (new TgCallback(self::$tgDTO))->run();
             return;
         }
 
-        (new NewGameCommand($this->data))->answer();
+        (new NewGameCommand(self::$tgDTO))->answer();
 
     }
 
     private function checkUser()
     {
-        $tgUser = TgUser::with('user')->where('chat_id', $this->data['chat_id'])
+        $tgUser = TgUser::with('user')->where('chat_id', self::$tgDTO['chat_id'])
             ->first();
 
         if($tgUser)
             return $this->userUpdate($tgUser);
 
-        if($this->data['is_bot'])
+        if(self::$tgDTO['is_bot'])
             return;
 
         $user = User::create([
-            'name' => trim($this->data['first_name'] . " " . $this->data['last_name']),
-            'email' => $this->data['username'] . "@tg.ru",
-            'password' =>Hash::make($this->data['username'])
+            'name' => trim(self::$tgDTO['first_name'] . " " . self::$tgDTO['last_name']),
+            'email' => self::$tgDTO['username'] . "@tg.ru",
+            'password' =>Hash::make(self::$tgDTO['username'])
         ]);
 
-        $this->data['user_id'] = $tgUser->user_id;
-        TgDTOService::$tgData['user_id'] = $tgUser->user_id;
+        self::$tgDTO['user_id'] = $tgUser->user_id;
 
         $tgUser = TgUser::create([
             'user_id' => $user->id,
-            'chat_id' => $this->data['chat_id'],
-            'is_bot' => $this->data['is_bot'],
-            'first_name' => $this->data['first_name'],
-            'last_name' => $this->data['last_name'],
-            'username' => $this->data['username'],
-            'language_code' => $this->data['language_code']
+            'chat_id' => self::$tgDTO['chat_id'],
+            'is_bot' => self::$tgDTO['is_bot'],
+            'first_name' => self::$tgDTO['first_name'],
+            'last_name' => self::$tgDTO['last_name'],
+            'username' => self::$tgDTO['username'],
+            'language_code' => self::$tgDTO['language_code']
         ]);
 
         return $tgUser;
@@ -84,17 +84,16 @@ class TgWebhookService
 
     private function userUpdate($tgUser)
     {
-        $this->data['user_id'] = $tgUser->user_id;
-        TgDTOService::$tgData['user_id'] = $tgUser->user_id;
+        self::$tgDTO['user_id'] = $tgUser->user_id;
 
         $lastUpdate = Carbon::parse($tgUser->updated_at)->timestamp;
         $now = Carbon::now()->timestamp;
 
         if(($now - $lastUpdate) > 60 * 60 * 24 * 2 || !$tgUser->act){
-            $tgUser->first_name = $this->data['first_name'];
-            $tgUser->last_name = $this->data['last_name'];
-            $tgUser->username = $this->data['username'];
-            $tgUser->language_code = $this->data['language_code'];
+            $tgUser->first_name = self::$tgDTO['first_name'];
+            $tgUser->last_name = self::$tgDTO['last_name'];
+            $tgUser->username = self::$tgDTO['username'];
+            $tgUser->language_code = self::$tgDTO['language_code'];
             $tgUser->act = true;
             $tgUser->save();
         }
