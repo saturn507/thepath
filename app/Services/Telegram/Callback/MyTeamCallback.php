@@ -105,6 +105,8 @@ class MyTeamCallback
 
     public function userTeamDelete()
     {
+        $this->delete();
+
         $game = GameService::checkCurrentGameFromUser();
         Log::info(json_encode(TgDTOService::$tgData));
         if(isset(TgDTOService::$tgData['callback_data'][1])){
