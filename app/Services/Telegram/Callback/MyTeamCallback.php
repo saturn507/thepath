@@ -148,6 +148,8 @@ class MyTeamCallback
 
     public function userTeamConfirm()
     {
+        $this->delete();
+
         $game = GameService::checkCurrentGameFromUser();
         $currentUsers = GameService::getGameUsers();
         $userId = TgDTOService::$tgData['user_id'];
@@ -182,6 +184,8 @@ class MyTeamCallback
 
     public function userTeamRefuse()
     {
+        $this->delete();
+
         $game = GameService::checkCurrentGameFromUser();
         $currentUsers = GameService::getGameUsers();
         $userId = TgDTOService::$tgData['user_id'];
