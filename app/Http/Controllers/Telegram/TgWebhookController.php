@@ -22,7 +22,7 @@ class TgWebhookController extends Controller
 
             $this->webhookLog($request, $data);
 
-            (new TgWebhookService($data))->run();
+            (new TgWebhookService)->run();
 
             Log::channel('telegram')->alert(json_encode($request->all()));
         }
