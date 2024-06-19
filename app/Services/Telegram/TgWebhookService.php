@@ -37,12 +37,12 @@ class TgWebhookService
         }
 
         if(!is_null(self::$tgDTO['command'])){
-            (new TgCommand(self::$tgDTO))->run();
+            (new TgCommand(TgDTOService::$tgData))->run();
             return;
         }
 
         if(!is_null(self::$tgDTO['callback'])){
-            (new TgCallback(self::$tgDTO))->run();
+            (new TgCallback(TgDTOService::$tgData))->run();
             return;
         }
 
