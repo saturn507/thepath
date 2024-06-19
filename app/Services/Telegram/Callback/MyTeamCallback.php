@@ -177,6 +177,7 @@ class MyTeamCallback
 
         $this->resetText();
         $this->setText($text);
+        $this->send();
     }
 
     public function userTeamRefuse()
