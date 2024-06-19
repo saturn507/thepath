@@ -52,7 +52,7 @@ trait TgMessageService
             $data
         );
 
-        Log::alert(json_encode($data) . $res->body());
+        Log::alert($res->body());
         //dd($res->body());
 
         if($res->status() == 403){
