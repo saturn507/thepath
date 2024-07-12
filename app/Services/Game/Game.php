@@ -69,6 +69,7 @@ class Game
 
             foreach($users as $user){
                 $u[$user->users->id] = [
+                    "chat_id" => $user->users->tgUser->chat_id,
                     "capitan" => $user->capitan,
                     "confirmed" => $user->confirmed,
                     "first_name" => $user->users->tgUser->first_name,

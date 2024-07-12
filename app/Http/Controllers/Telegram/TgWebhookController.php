@@ -13,7 +13,7 @@ class TgWebhookController extends Controller
 {
     public function getWebhook(Request $request)
     {
-        // die('ok');
+        //die('ok');
         Log::channel('telegram')->alert(json_encode($request->all()));
 
         if($request->has('message') || $request->has('callback_query')){
@@ -22,7 +22,7 @@ class TgWebhookController extends Controller
 
             $this->webhookLog($request, $data);
 
-            (new TgWebhookService($data))->run();
+            (new TgWebhookService)->run();
 
             Log::channel('telegram')->alert(json_encode($request->all()));
         }

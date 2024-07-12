@@ -58,6 +58,7 @@ class MyTeamCallback
                 $users = Cache::get(GameModel::CACHE_GAME_USERS . $game->id);
 
                 $users[$tgUser->user_id] = [
+                    "chat_id" => $tgUser->chat_id,
                     "capitan" => false,
                     "confirmed" => false,
                     "first_name" => $tgUser->first_name,
@@ -104,6 +105,8 @@ class MyTeamCallback
 
     public function userTeamDelete()
     {
+        $this->delete();
+
         $game = GameService::checkCurrentGameFromUser();
         Log::info(json_encode(TgDTOService::$tgData));
         if(isset(TgDTOService::$tgData['callback_data'][1])){
@@ -143,5 +146,77 @@ class MyTeamCallback
                 $this->send();
             }
         }
+    }
+
+    public function userTeamConfirm()
+    {
+        $this->delete();
+
+        $game = GameService::checkCurrentGameFromUser();
+        $currentUsers = GameService::getGameUsers();
+        $userId = TgDTOService::$tgData['user_id'];
+
+        GameToUser::query()
+            ->where('game_id', $game->id)
+            ->where('user_id', $userId)
+            ->update(['confirmed' => true]);
+
+        $currentUsers[$userId]['confirmed'] = true;
+
+        Cache::put(GameModel::CACHE_GAME_USERS . $game->id, $currentUsers, 60*60*8);
+
+        $text = 'Вы добавлены в команду';
+        $this->setText($text);
+        $this->send();
+
+        $chatId = 1;
+        foreach ($currentUsers as $v){
+            if($v['capitan'])
+                $chatId = $v['chat_id'];
+        }
+
+        $this->data['chat_id'] = $chatId;
+        $text = 'Пользователь @' . TgDTOService::$tgData['username']. PHP_EOL;
+        $text .= 'подтвердил участие в игре'. PHP_EOL;
+
+        $this->resetText();
+        $this->setText($text);
+        $this->send();
+    }
+
+    public function userTeamRefuse()
+    {
+        $this->delete();
+
+        $game = GameService::checkCurrentGameFromUser();
+        $currentUsers = GameService::getGameUsers();
+        $userId = TgDTOService::$tgData['user_id'];
+
+        GameToUser::query()
+            ->where('game_id', $game->id)
+            ->where('user_id', $userId)
+            ->delete();
+
+        $text = 'Вы покинули команду';
+        $this->setText($text);
+        $this->send();
+
+        $chatId = 1;
+        foreach ($currentUsers as $v){
+            if($v['capitan'])
+                $chatId = $v['chat_id'];
+        }
+
+        $this->data['chat_id'] = $chatId;
+        $text = 'Пользователь @' . TgDTOService::$tgData['username']. PHP_EOL;
+        $text .= 'отказался от участие в игре'. PHP_EOL;
+
+        $this->resetText();
+        $this->setText($text);
+        $this->send();
+
+        $users = Cache::get(GameModel::CACHE_GAME_USERS . $game->id);
+        unset($users[$userId]);
+        Cache::put(GameModel::CACHE_GAME_USERS . $game->id, $users, 60*60*8);
     }
 }
