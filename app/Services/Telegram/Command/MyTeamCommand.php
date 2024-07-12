@@ -3,21 +3,22 @@
 namespace App\Services\Telegram\Command;
 
 use App\Services\Game\Game as GameService;
+use App\Services\Telegram\TgDTOService;
 use App\Services\Telegram\TgMessageService;
 
 class MyTeamCommand
 {
     use TgMessageService;
 
-    private array $data;
+    /*private array $data;
     public function __construct($data)
     {
         $this->data = $data;
-    }
+    }*/
 
     public function myTeamList()
     {
-        $game = GameService::checkCurrentGameFromUser();
+        $game = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
 
         if($game){
             $text = 'Ваша команда:' . PHP_EOL . PHP_EOL;

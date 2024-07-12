@@ -18,9 +18,9 @@ class Game
         if(!is_null(self::$currentGame))
             return self::$currentGame;
 
-        if(is_null($userId)){
+        /*if(is_null($userId)){
             $userId = TgDTOService::$tgData['user_id'];
-        }
+        }*/
 
         $currentGame = GameModel::query()
             ->with('questionLine')

@@ -15,15 +15,15 @@ use DB;
 class NewGame
 {
 
-    public function list($data)
+    public function list($userId, $pagination)
     {
-        $currentGame = GameService::checkCurrentGameFromUser($data['user_id']);
+        $currentGame = GameService::checkCurrentGameFromUser($userId);
 
         if(!is_null($currentGame))
             return ['exists' => $currentGame];
 
-        $count = $data['pagination']['count'];
-        $page = $data['pagination']['page'];
+        $count = $pagination['count'];
+        $page = $pagination['page'];
 
         return [
             'list' =>
@@ -62,11 +62,11 @@ class NewGame
        return QuestLine::query()->where('id', $id)->first();
     }
 
-    public function createGame($data)
+    public function createGame($gameId, $userId)
     {
-        DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($gameId, $userId) {
             $game = GameModel::query()->create([
-                'quest_line_id' => $data['callback_data'][1]
+                'quest_line_id' => $gameId
             ]);
 
             $points = QuestLineToPoint::query()
@@ -89,7 +89,7 @@ class NewGame
 
             $game->userGame()->insert([
                 'game_id' => $game->id,
-                'user_id' => $data['user_id'],
+                'user_id' => $userId,
                 'capitan' => true,
                 'confirmed' => true
             ]);

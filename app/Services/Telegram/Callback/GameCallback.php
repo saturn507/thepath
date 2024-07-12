@@ -5,6 +5,7 @@ namespace App\Services\Telegram\Callback;
 use App\Models\Game as GameModel;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Command\NewGameCommand;
+use App\Services\Telegram\TgDTOService;
 use App\Services\Telegram\TgMessageService;
 use Carbon\Carbon;
 use App\Services\Game\Game as GameService;
@@ -14,18 +15,18 @@ class GameCallback
 {
     use TgMessageService;
 
-    private array $data;
+    /*private array $data;
     public function __construct($data)
     {
         $this->data = $data;
-    }
+    }*/
 
-    public function descriptionGame()
+    public function descriptionGame(): void
     {
-        $res = (new NewGame)->descriptionGame($this->data['callback_data'][1]);
+        $questDescription = (new NewGame)->descriptionGame(TgDTOService::$tgData['callback_data'][1]);
 
-        if(!is_null($res)){
-            $this->setText($res->description);
+        if(!is_null($questDescription)){
+            $this->setText($questDescription->description);
             $this->createButton(array_chunk([
                 [
                     'text' => '[X] Закрыть',
@@ -33,20 +34,19 @@ class GameCallback
                 ],
                 [
                     'text' => 'Начать игру -->',
-                    'callback_data' => 'create_game.' . $res->id,
+                    'callback_data' => 'create_game.' . $questDescription->id,
                 ]
             ], 2));
             $this->send();
         }
     }
 
-    public function createGame()
+    public function createGame(): void
     {
-        $newGame = new NewGame();
-        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
+        $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
 
-        if(is_null($obj)){
-            $newGame->createGame($this->data);
+        if(is_null($currentGame)){
+            (new NewGame())->createGame(TgDTOService::$tgData['callback_data'][1], TgDTOService::$tgData['user_id']);
             $this->delete();
 
             $text = "Новая игра создана." . PHP_EOL .
@@ -63,29 +63,29 @@ class GameCallback
 
             $this->send();
         } else {
-            (new NewGameCommand($this->data))->existsGameMessage($obj);
+            (new NewGameCommand())->existsGameMessage($currentGame);
         }
     }
 
-    public function gameList()
+    public function gameList(): void
     {
         $this->delete();
 
-        if(isset($this->data['callback_data'][1])){
-            $this->data['page'] = $this->data['callback_data'][1];
+        if(isset(TgDTOService::$tgData['callback_data'][1])){
+            TgDTOService::$tgData['page'] = TgDTOService::$tgData['callback_data'][1];
         }
 
-        (new NewGameCommand($this->data))->gameList();
+        (new NewGameCommand())->gameList();
     }
 
-    public function finishGame()
+    public function finishGame(): void
     {
         $this->delete();
 
-        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
-        if (!is_null($obj)){
+        $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
+        if (!is_null($currentGame)){
             GameModel::query()
-                ->where('id', $obj->id)
+                ->where('id', $currentGame->id)
                 ->update([
                     'act' => false,
                 ]);
@@ -95,40 +95,18 @@ class GameCallback
         $this->send();
     }
 
-    public function startGame()
+    public function startGame(): void
     {
-        $newGame = new NewGame();
-
-        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
-
-        if(!is_null($obj)){
-            $data = $newGame->nexQuestion($obj->id,true);
-            $this->delete();
-
-            $text = "Вам нужно быть здесь: " . PHP_EOL .
-                $data['location'] . PHP_EOL .
-                "Ответьте на вопрос:" . PHP_EOL . $data['question'];
-
-            if(!is_null($data['question_img'])){
-                $url = Storage::disk('point')->url($data['question_img']);
-                $this->setImg($url);
-            }
-
-            $this->setText($text);
-            $this->send();
-        } else {
-            (new NewGameCommand($this->data))->notExistsGameMessage();
-        }
+        $this->nextQuestion(true);
     }
 
-    public function nextQuestion()
+    public function nextQuestion($flag = false): void
     {
-        $newGame = new NewGame();
+        $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
 
-        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
+        if(!is_null($currentGame)){
+            $data = (new NewGame())->nexQuestion($currentGame->id, $flag);
 
-        if(!is_null($obj)){
-            $data = $newGame->nexQuestion($obj->id);
             $this->delete();
 
             $text = "Вам нужно быть здесь: " . PHP_EOL .
@@ -143,7 +121,7 @@ class GameCallback
             $this->setText($text);
             $this->send();
         } else {
-            (new NewGameCommand($this->data))->notExistsGameMessage();
+            (new NewGameCommand())->notExistsGameMessage();
         }
     }
 }
