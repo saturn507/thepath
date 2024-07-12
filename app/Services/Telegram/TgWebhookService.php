@@ -37,14 +37,14 @@ class TgWebhookService
         }
 
         if(!is_null(self::$tgDTO['command'])){
-            (new TgCommand(TgDTOService::$tgData))->run();
+            (new TgCommand())->run();
             return;
         }
 
-        if(!is_null(self::$tgDTO['callback'])){
+        /*if(!is_null(self::$tgDTO['callback'])){
             (new TgCallback(TgDTOService::$tgData))->run();
             return;
-        }
+        }*/
 
         (new NewGameCommand(self::$tgDTO))->answer();
 

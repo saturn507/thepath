@@ -5,6 +5,7 @@ namespace App\Services\Telegram\Command;
 use App\Models\Game;
 use App\Services\Game\Game as GameService;
 use App\Services\Game\NewGame;
+use App\Services\Telegram\TgDTOService;
 use App\Services\Telegram\TgMessageService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -13,18 +14,18 @@ class NewGameCommand
 {
     use TgMessageService;
 
-    private array $data;
-    public function __construct($data)
+    /*private array $data;
+    public function __construct()
     {
-        $this->data = $data;
-    }
+        $this->data = TgDTOService::$tgData;
+    }*/
 
     public function gameList(): void
     {
         $this->pagination();
 
         $newGame = new NewGame();
-        $obj = $newGame->list($this->data);
+        $obj = $newGame->list(TgDTOService::$tgData['user_id'], TgDTOService::$tgData['pagination']);
 
         if(isset($obj['list']))
             $this->newGame($obj['list']);
@@ -62,33 +63,36 @@ class NewGameCommand
 
     private function pagination()
     {
-        $this->data['pagination']['count'] = config('telegram.quest_lines_view_count');
+        TgDTOService::$tgData['pagination']['count'] = config('telegram.quest_lines_view_count');
 
-        if (isset($this->data['page'])) {
-            $this->data['pagination']['page'] = $this->data['page'];
+        if (isset(TgDTOService::$tgData['page'])) {
+            TgDTOService::$tgData['pagination']['page'] = TgDTOService::$tgData['page'];
         } else {
-            $this->data['pagination']['page'] = 0;
+            TgDTOService::$tgData['pagination']['page'] = 0;
         }
 
-        $this->data['pagination']['next_page'] = $this->data['pagination']['page'] + 1;
-        $this->data['pagination']['pre_page'] = $this->data['pagination']['page'] - 1;
-        $this->data['pagination']['total'] = NewGame::count();
+        TgDTOService::$tgData['pagination']['next_page'] = TgDTOService::$tgData['pagination']['page'] + 1;
+        TgDTOService::$tgData['pagination']['pre_page'] = TgDTOService::$tgData['pagination']['page'] - 1;
+        TgDTOService::$tgData['pagination']['total'] = NewGame::count();
     }
     private function paginationButton()
     {
         $paginateButton = [];
 
-        if ($this->data['pagination']['pre_page'] >= 0) {
+        if (TgDTOService::$tgData['pagination']['pre_page'] >= 0) {
             $paginateButton[] = [
                 'text' => '<- Назад',
-                'callback_data' => 'list_game.' . $this->data['pagination']['pre_page'],
+                'callback_data' => 'list_game.' . TgDTOService::$tgData['pagination']['pre_page'],
             ];
         }
 
-        if ($this->data['pagination']['total'] > ($this->data['pagination']['next_page'] * $this->data['pagination']['count'])) {
+        if (
+            TgDTOService::$tgData['pagination']['total'] >
+            (TgDTOService::$tgData['pagination']['next_page'] * TgDTOService::$tgData['pagination']['count'])
+        ) {
             $paginateButton[] = [
                 'text' => 'Вперед ->',
-                'callback_data' => 'list_game.' . $this->data['pagination']['next_page'],
+                'callback_data' => 'list_game.' . TgDTOService::$tgData['pagination']['next_page'],
             ];
         }
 
@@ -120,7 +124,7 @@ class NewGameCommand
     public function answer()
     {
         $newGame = new NewGame();
-        $obj = GameService::checkCurrentGameFromUser($this->data['user_id']);
+        $obj = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
 
         if(!is_null($obj)){
             $question = $newGame->nexQuestion($obj->id);
@@ -129,7 +133,7 @@ class NewGameCommand
                 $this->finishGame($obj);
             }
 
-            if(GameService::checkAnswer($question['question_id'], $this->data['text']) || $this->data['text'] == '*'){
+            if(GameService::checkAnswer($question['question_id'], TgDTOService::$tgData['text']) || TgDTOService::$tgData['text'] == '*'){
                 $newGame->correctAnswer($obj, $question);
 
                 $next = $newGame->nexQuestion($obj->id);

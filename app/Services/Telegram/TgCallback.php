@@ -29,6 +29,7 @@ class TgCallback
         TgDTOService::$tgData['callback_data'] = $callback;
 
         match ($this->data['callback']) {
+            /** Настройки игры ****************************************************************************************/
             'create_game' => (new GameCallback($this->data))->createGame(),
             'start_game' => (new GameCallback($this->data))->startGame(),
             'description_game' => (new GameCallback($this->data))->descriptionGame(),
@@ -36,6 +37,7 @@ class TgCallback
             'delete_callback' => $this->deleteCallback(),
             'finish_game' => (new GameCallback($this->data))->finishGame(),
             'next_question' => (new GameCallback($this->data))->nextQuestion(),
+            /** Настройки команды *************************************************************************************/
             'my_team_user_add_enter' => (new MyTeamCallback($this->data))->userTeamAddEnter(),
             'my_team_user_add' => (new MyTeamCallback($this->data))->userTeamAdd(),
             'my_team_user_delete' => (new MyTeamCallback($this->data))->userTeamDelete(),

@@ -9,6 +9,18 @@ class TgDTOService
     public static array $tgData;
     public static function transformWbhookData(Request $request)
     {
+        $command = null;
+        $callbackData = null;
+
+        if($request->input('message.entities.0.type', null) == 'bot_command'){
+            $command = substr($request->input('message.text'), 1);
+        } elseif($request->has('callback_query.data')){
+            $callback = explode('.', $request->input('callback_query.data'));
+
+            $command = $callback[0];
+            $callbackData = $callback;
+        }
+
         $data =  [
             'chat_id' => $request->input(
                 'message.chat.id',
@@ -31,15 +43,12 @@ class TgDTOService
                 $request->input('callback_query.message.chat.username')
             ),
             'language_code' => $request->input('message.from.language_code', null),
-            'command' =>
-                $request->input('message.entities.0.type') == 'bot_command'
-                    ?substr($request->input('message.text'), 1)
-                    :null,
+            'command' => $command,
+            'callback_data' => $callbackData,
             'text' => $request->input(
                 'message.text',
                 $request->input('callback_query.message.text')
             ),
-            'callback' => $request->input('callback_query.data', null),
             'message_id' => $request->input(
                 'message.message_id',
                 $request->input('callback_query.message.message_id')
