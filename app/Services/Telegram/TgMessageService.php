@@ -14,7 +14,7 @@ trait TgMessageService
 
     public function send(): void
     {
-        $data['chat_id'] = $this->data['chat_id'];
+        $data['chat_id'] = TgDTOService::$tgData['chat_id'];
 
         if(count($this->button) > 0) {
             $data['reply_markup'] = json_encode([
@@ -38,8 +38,8 @@ trait TgMessageService
     public function delete()
     {
         $data = [
-            'chat_id' => $this->data['chat_id'],
-            'message_id' => $this->data['message_id'],
+            'chat_id' => TgDTOService::$tgData['chat_id'],
+            'message_id' => TgDTOService::$tgData['message_id'],
         ];
 
         $this->push('deleteMessage', $data);
