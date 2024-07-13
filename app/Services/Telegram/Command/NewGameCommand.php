@@ -122,7 +122,7 @@ class NewGameCommand
         $this->send();
     }
 
-    public function answer()
+    public function answer(): void
     {
         $newGame = new NewGame();
         $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
@@ -132,6 +132,7 @@ class NewGameCommand
         if(!$users[TgDTOService::$tgData['user_id']]['capitan']){
             $this->setText('Отвечать может только капитан');
             $this->send();
+            die();
         }
 
 
