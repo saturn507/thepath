@@ -31,7 +31,7 @@ class TgWebhookService
         if($game){
             $cacheKey = GameModel::CACHE_GAME_STATE . $game->id;
 
-            if (Cache::has($cacheKey)) {
+            if (Cache::has($cacheKey) && is_null(TgDTOService::$tgData['command'])) {
                 TgDTOService::$tgData['command'] = Cache::get($cacheKey);
             }
         }
