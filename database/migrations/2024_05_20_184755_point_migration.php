@@ -19,7 +19,9 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->text('question')->nullable();
+            $table->string('question_img')->nullable();
             $table->string('answer')->nullable();
+            $table->string('answer_img')->nullable();
             $table->timestamps();
         });
     }

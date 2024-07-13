@@ -39,7 +39,8 @@ class TgMessage
 
     public function answer($question): void
     {
-        $text = "Поздравляем! Вы правильно ответили.";
+        $text = "Поздравляем! Вы правильно ответили." . PHP_EOL;
+        $text .= "Правильный ответ: " . $question['answer'];
 
         if(!is_null($question['answer_img'])){
             $url = Storage::disk('point')->url($question['answer_img']);
