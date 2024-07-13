@@ -27,12 +27,12 @@ class TgWebhookService
     {
         $this->checkUser();
 
-        $game = GameService::checkCurrentGameFromUser();
+        $game = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
         if($game){
             $cacheKey = GameModel::CACHE_GAME_STATE . $game->id;
 
             if (Cache::has($cacheKey)) {
-                self::$tgDTO['callback'] = Cache::get($cacheKey);
+                self::$tgDTO['command'] = Cache::get($cacheKey);
             }
         }
 
