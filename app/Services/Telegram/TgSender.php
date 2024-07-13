@@ -101,4 +101,9 @@ trait TgSender
     {
         array_push($this->button, $array);
     }
+
+    public function resetButton()
+    {
+        $this->button = [];
+    }
 }
