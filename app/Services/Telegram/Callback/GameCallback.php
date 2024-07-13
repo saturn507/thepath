@@ -6,6 +6,7 @@ use App\Models\Game as GameModel;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Command\NewGameCommand;
 use App\Services\Telegram\TgDTOService;
+use App\Services\Telegram\TgMessage;
 use App\Services\Telegram\TgMessageService;
 use Carbon\Carbon;
 use App\Services\Game\Game as GameService;
@@ -104,9 +105,11 @@ class GameCallback
 
         $data = (new NewGame())->nexQuestion($currentGame->id, $flag);
 
+        (new TgMessage())->currentPoint($data);
+
         $this->delete();
 
-        $text = "Вам нужно быть здесь: " . PHP_EOL .
+        /*$text = "Вам нужно быть здесь: " . PHP_EOL .
             $data['location'] . PHP_EOL .
             "Ответьте на вопрос:" . PHP_EOL . $data['question'];
 
@@ -116,6 +119,6 @@ class GameCallback
         }
 
         $this->setText($text);
-        $this->send();
+        $this->send();*/
     }
 }
