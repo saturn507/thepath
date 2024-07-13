@@ -99,9 +99,12 @@ class NewGame
     public function nexQuestion($gameId, $start = false)
     {
         if($start){
-            GameModel::query()
-                ->where('id', $gameId)
-                ->update(['start_at' => Carbon::now()]);
+            $game = GameModel::query()->where('id', $gameId)->first();
+
+            if(is_null($game->start_at)){
+                $game->start_at = Carbon::now();
+                $game->save();
+            }
         }
 
         $point = $this->getNextLocation($gameId);
