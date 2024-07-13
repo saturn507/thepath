@@ -248,6 +248,6 @@ class MyTeamCallback
     public function editExit(): void
     {
         Cache::forget(GameModel::CACHE_GAME_STATE . self::$currentGame->id);
-        GameCallback::startGame();
+        (new GameCallback)->startGame();
     }
 }
