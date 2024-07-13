@@ -48,6 +48,14 @@ class MyTeamCallback
 
             if(isset($currentUsers[$tgUser->user_id])){
                 $text = 'Этот пользовател уже в вашей команде';
+
+                $this->createButton([[
+                    [
+                        'text' => 'Получить первую точку',
+                        'callback_data' => 'start_game',
+                    ]
+                ]]);
+
                 $this->setText($text);
                 $this->send();
             } else {
