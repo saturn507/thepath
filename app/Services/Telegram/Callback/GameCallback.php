@@ -91,13 +91,6 @@ class GameCallback
 
     public function startGame(): void
     {
-        $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
-
-        if (!$currentGame)
-            (new NewGameCommand())->notExistsGameMessage();
-
-
-        Cache::forget(GameModel::CACHE_GAME_STATE . $currentGame->id);
         $this->nextQuestion(true);
     }
 

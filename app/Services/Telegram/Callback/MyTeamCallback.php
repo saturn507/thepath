@@ -11,6 +11,7 @@ use App\Services\Telegram\TgDTOService;
 use App\Services\Telegram\TgMessageService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use App\Services\Telegram\Callback\GameCallback;
 
 class MyTeamCallback
 {
@@ -51,8 +52,8 @@ class MyTeamCallback
 
                 $this->createButton([[
                     [
-                        'text' => 'Получить первую точку',
-                        'callback_data' => 'start_game',
+                        'text' => 'Выйти из редактирования команды',
+                        'callback_data' => 'my_team_edit_exit',
                     ]
                 ]]);
 
@@ -84,8 +85,8 @@ class MyTeamCallback
 
                 $this->createButton([[
                     [
-                        'text' => 'Получить первую точку',
-                        'callback_data' => 'start_game',
+                        'text' => 'Выйти из редактирования команды',
+                        'callback_data' => 'my_team_edit_exit',
                     ]
                 ]]);
 
@@ -121,8 +122,8 @@ class MyTeamCallback
 
             $this->createButton([[
                 [
-                    'text' => 'Получить первую точку',
-                    'callback_data' => 'start_game',
+                    'text' => 'Выйти из редактирования команды',
+                    'callback_data' => 'my_team_edit_exit',
                 ]
             ]]);
 
@@ -242,5 +243,11 @@ class MyTeamCallback
         $users = Cache::get(GameModel::CACHE_GAME_USERS . self::$currentGame->id);
         unset($users[$userId]);
         Cache::put(GameModel::CACHE_GAME_USERS . self::$currentGame->id, $users, 60*60*8);
+    }
+
+    public function editExit(): void
+    {
+        Cache::forget(GameModel::CACHE_GAME_STATE . self::$currentGame->id);
+        GameCallback::startGame();
     }
 }

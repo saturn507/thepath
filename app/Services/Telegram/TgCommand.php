@@ -35,6 +35,7 @@ class TgCommand
             'my_team_user_capitan_change' => $this->missCommand(),
             'my_team_user_confirm' => (new MyTeamCallback())->userTeamConfirm(),
             'my_team_user_refuse' => (new MyTeamCallback())->userTeamRefuse(),
+            'my_team_edit_exit' => (new MyTeamCallback())->editExit(),
             default => $this->missCommand(),
         };
 
