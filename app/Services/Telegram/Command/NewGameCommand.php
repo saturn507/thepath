@@ -135,7 +135,6 @@ class NewGameCommand
             die();
         }
 
-
         if(!is_null($currentGame)){
             $question = $newGame->nexQuestion($currentGame->id);
             if(!$question){
