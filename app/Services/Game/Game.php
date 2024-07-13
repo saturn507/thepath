@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Game
 {
-    private static ?object $currentGame = null;
+    public static ?object $currentGame = null;
     public static function checkCurrentGameFromUser($userId = null)
     {
         if(!is_null(self::$currentGame))

@@ -12,35 +12,29 @@ class TgCommand
 {
     use TgMessageService;
 
-    private array $data;
-    public function __construct()
-    {
-        $this->data = TgDTOService::$tgData;
-    }
-
     public function run(): void
     {
-        match ($this->data['command']) {
+        match (TgDTOService::$tgData['command']) {
     /******* КОМАНДЫ **************************************************************************************************/
-            'new_game' => (new NewGameCommand())->gameList(), //
-            'my_team' => (new MyTeamCommand())->myTeamList(), //
+            'new_game' => (new NewGameCommand())->gameList(),
+            'my_team' => (new MyTeamCommand())->myTeamList(),
             'start' => $this->startCommand(),
     /****** ОБРАТНАЯ СВЯЗЬ ********************************************************************************************/
         /** Настройки игры ****************************************************************************************/
-            'create_game' => (new GameCallback())->createGame(), //
-            'start_game' => (new GameCallback())->startGame(), //
-            'description_game' => (new GameCallback())->descriptionGame(), //
-            'list_game' => (new GameCallback())->gameList(), //
+            'create_game' => (new GameCallback())->createGame(),
+            'start_game' => (new GameCallback())->startGame(),
+            'description_game' => (new GameCallback())->descriptionGame(),
+            'list_game' => (new GameCallback())->gameList(),
             'delete_callback' => $this->deleteCallback(),
-            'finish_game' => (new GameCallback())->finishGame(), //
-            'next_question' => (new GameCallback())->nextQuestion(), //
+            'finish_game' => (new GameCallback())->finishGame(),
+            'next_question' => (new GameCallback())->nextQuestion(),
         /** Настройки команды *************************************************************************************/
-            'my_team_user_add_enter' => (new MyTeamCallback(TgDTOService::$tgData))->userTeamAddEnter(),
-            'my_team_user_add' => (new MyTeamCallback(TgDTOService::$tgData))->userTeamAdd(),
-            'my_team_user_delete' => (new MyTeamCallback(TgDTOService::$tgData))->userTeamDelete(),
+            'my_team_user_add_enter' => (new MyTeamCallback())->userTeamAddEnter(),
+            'my_team_user_add' => (new MyTeamCallback())->userTeamAdd(),
+            'my_team_user_delete' => (new MyTeamCallback())->userTeamDelete(),
             'my_team_user_capitan_change' => $this->missCommand(),
-            'my_team_user_confirm' => (new MyTeamCallback(TgDTOService::$tgData))->userTeamConfirm(),
-            'my_team_user_refuse' => (new MyTeamCallback(TgDTOService::$tgData))->userTeamRefuse(),
+            'my_team_user_confirm' => (new MyTeamCallback())->userTeamConfirm(),
+            'my_team_user_refuse' => (new MyTeamCallback())->userTeamRefuse(),
             default => $this->missCommand(),
         };
 
