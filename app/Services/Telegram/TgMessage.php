@@ -71,6 +71,7 @@ class TgMessage
             $this->createButton(array_chunk($button, 2));
             $this->send();
 
+            $button = [];
             $this->resetButton();
         }
     }
