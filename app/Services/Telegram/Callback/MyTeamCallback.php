@@ -108,8 +108,17 @@ class MyTeamCallback
             }
         } else {
             $text = 'Пользователь @' . TgDTOService::$tgData['text'] . ' не найден' . PHP_EOL;
-            $text .= 'Отправте username пользователя.';
-                $this->setText($text);
+            $text .= 'Отправте username пользователя.' . PHP_EOL;
+            $text .= 'ИЛИ';
+
+            $this->createButton([[
+                [
+                    'text' => 'Получить первую точку',
+                    'callback_data' => 'start_game',
+                ]
+            ]]);
+
+            $this->setText($text);
             $this->send();
         }
     }
