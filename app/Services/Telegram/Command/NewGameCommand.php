@@ -127,6 +127,14 @@ class NewGameCommand
         $newGame = new NewGame();
         $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
 
+        $users = GameService::getGameUsers();
+
+        if(!$users[TgDTOService::$tgData['user_id']]['capitan']){
+            $this->setText('Отвечать может только капитан');
+            $this->send();
+        }
+
+
         if(!is_null($currentGame)){
             $question = $newGame->nexQuestion($currentGame->id);
             if(!$question){
