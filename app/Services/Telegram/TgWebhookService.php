@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Hash;
 
 class TgWebhookService
 {
-    private static ?array $tgDTO;
+    /*private static ?array $tgDTO;
     public function __construct()
     {
         self::$tgDTO = TgDTOService::$tgData;
-    }
+    }*/
 
     public function run(): void
     {
@@ -32,11 +32,11 @@ class TgWebhookService
             $cacheKey = GameModel::CACHE_GAME_STATE . $game->id;
 
             if (Cache::has($cacheKey)) {
-                self::$tgDTO['command'] = Cache::get($cacheKey);
+                TgDTOService::$tgData['command'] = Cache::get($cacheKey);
             }
         }
 
-        if(!is_null(self::$tgDTO['command'])){
+        if(!is_null(TgDTOService::$tgData['command'])){
             (new TgCommand())->run();
             return;
         }
