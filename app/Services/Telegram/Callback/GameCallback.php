@@ -9,6 +9,7 @@ use App\Services\Telegram\TgDTOService;
 use App\Services\Telegram\TgMessageService;
 use Carbon\Carbon;
 use App\Services\Game\Game as GameService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class GameCallback
@@ -90,6 +91,13 @@ class GameCallback
 
     public function startGame(): void
     {
+        $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
+
+        if (!$currentGame)
+            (new NewGameCommand())->notExistsGameMessage();
+
+
+        Cache::forget(GameModel::CACHE_GAME_STATE . $currentGame->id);
         $this->nextQuestion(true);
     }
 
