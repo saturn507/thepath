@@ -9,12 +9,14 @@ use App\Services\Game\Game;
 class TgMessage
 {
     use TgSender;
+
+    private array $users;
+    public function __construct()
+    {
+        $this->users = Game::getGameUsers();
+    }
     public function currentPoint($data)
     {
-        //TgDTOService::$tgData;
-
-        $users = Game::getGameUsers();
-
         $text = "Вам нужно быть здесь: " . PHP_EOL .
             $data['location'] . PHP_EOL .
             "Ответьте на вопрос:" . PHP_EOL . $data['question'];
@@ -26,12 +28,50 @@ class TgMessage
 
         $this->setText($text);
 
-        foreach ($users as $user){
+        foreach ($this->users as $user){
             if(!$user['confirmed'])
                 continue;
 
             $this->setChatId($user['chat_id']);
             $this->send();
+        }
+    }
+
+    public function answer($question)
+    {
+        $text = "Поздравляем! Вы правильно ответили.";
+
+        if(!is_null($question['answer_img'])){
+            $url = Storage::disk('point')->url($question['answer_img']);
+            $this->setImg($url);
+        }
+
+        $this->setText($text);
+
+        foreach ($this->users as $user){
+            if(!$user['confirmed'])
+                continue;
+
+            $this->setChatId($user['chat_id']);
+
+            if(!is_null($question['historical_reference'])){
+                $button[] = [
+                    'text' => 'Получить историческую справку',
+                    'callback_data' => 'history.' . $question['question_id'],
+                ];
+            }
+
+            if($user['capitan']){
+                $button[] = [
+                    'text' => 'Следующее задание',
+                    'callback_data' => 'next_question',
+                ];
+            }
+
+            $this->createButton(array_chunk($button, 2));
+            $this->send();
+
+            $this->resetButton();
         }
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Services\Game\Game as GameService;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\TgDTOService;
+use App\Services\Telegram\TgMessage;
 use App\Services\Telegram\TgMessageService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -124,47 +125,23 @@ class NewGameCommand
     public function answer()
     {
         $newGame = new NewGame();
-        $obj = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
+        $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
 
-        if(!is_null($obj)){
-            $question = $newGame->nexQuestion($obj->id);
-            //dd(Storage::disk('point')->url($question['question_img']));
+        if(!is_null($currentGame)){
+            $question = $newGame->nexQuestion($currentGame->id);
             if(!$question){
-                $this->finishGame($obj);
+                $this->finishGame($currentGame);
             }
 
             if(GameService::checkAnswer($question['question_id'], TgDTOService::$tgData['text']) || TgDTOService::$tgData['text'] == '*'){
-                $newGame->correctAnswer($obj, $question);
+                $newGame->correctAnswer($currentGame, $question);
 
-                $next = $newGame->nexQuestion($obj->id);
+                $next = $newGame->nexQuestion($currentGame->id);
 
                 if($next){
-
-                    $text = "Поздравляем! Вы правильно ответили.";
-
-                    $button[] = [
-                        'text' => 'Следующее задание',
-                        'callback_data' => 'next_question',
-                    ];
-
-                    if(!is_null($question['historical_reference'])){
-                        $button[] = [
-                            'text' => 'Получить историческую справку',
-                            'callback_data' => 'history.' . $question['question_id'],
-                        ];
-                    }
-
-                    $this->createButton(array_chunk($button, 2));
-
-                    if(!is_null($question['answer_img'])){
-                        $url = Storage::disk('point')->url($question['answer_img']);
-                        $this->setImg($url);
-                    }
-
-                    $this->setText($text);
-                    $this->send();
+                    (new TgMessage())->answer($question);
                 } else {
-                    $this->finishGame($obj);
+                    $this->finishGame($currentGame);
                 }
             } else {
                 $this->setText('Ответ неверный, попробуйте еще раз');
