@@ -46,37 +46,37 @@ class TgWebhookService
             return;
         }*/
 
-        (new NewGameCommand(self::$tgDTO))->answer();
+        (new NewGameCommand(TgDTOService::$tgData))->answer();
 
     }
 
     private function checkUser()
     {
-        $tgUser = TgUser::with('user')->where('chat_id', self::$tgDTO['chat_id'])
+        $tgUser = TgUser::with('user')->where('chat_id', TgDTOService::$tgData['chat_id'])
             ->first();
 
         if($tgUser)
             return $this->userUpdate($tgUser);
 
-        if(self::$tgDTO['is_bot'])
+        if(TgDTOService::$tgData['is_bot'])
             return;
 
         $user = User::create([
-            'name' => trim(self::$tgDTO['first_name'] . " " . self::$tgDTO['last_name']),
-            'email' => self::$tgDTO['username'] . "@tg.ru",
-            'password' =>Hash::make(self::$tgDTO['username'])
+            'name' => trim(TgDTOService::$tgData['first_name'] . " " . TgDTOService::$tgData['last_name']),
+            'email' => TgDTOService::$tgData['username'] . "@tg.ru",
+            'password' =>Hash::make(TgDTOService::$tgData['username'])
         ]);
 
         TgDTOService::$tgData['user_id'] = $tgUser->user_id;
 
         $tgUser = TgUser::create([
             'user_id' => $user->id,
-            'chat_id' => self::$tgDTO['chat_id'],
-            'is_bot' => self::$tgDTO['is_bot'],
-            'first_name' => self::$tgDTO['first_name'],
-            'last_name' => self::$tgDTO['last_name'],
-            'username' => self::$tgDTO['username'],
-            'language_code' => self::$tgDTO['language_code']
+            'chat_id' => TgDTOService::$tgData['chat_id'],
+            'is_bot' => TgDTOService::$tgData['is_bot'],
+            'first_name' => TgDTOService::$tgData['first_name'],
+            'last_name' => TgDTOService::$tgData['last_name'],
+            'username' => TgDTOService::$tgData['username'],
+            'language_code' => TgDTOService::$tgData['language_code']
         ]);
 
         return $tgUser;
@@ -90,10 +90,10 @@ class TgWebhookService
         $now = Carbon::now()->timestamp;
 
         if(($now - $lastUpdate) > 60 * 60 * 24 * 2 || !$tgUser->act){
-            $tgUser->first_name = self::$tgDTO['first_name'];
-            $tgUser->last_name = self::$tgDTO['last_name'];
-            $tgUser->username = self::$tgDTO['username'];
-            $tgUser->language_code = self::$tgDTO['language_code'];
+            $tgUser->first_name = TgDTOService::$tgData['first_name'];
+            $tgUser->last_name = TgDTOService::$tgData['last_name'];
+            $tgUser->username = TgDTOService::$tgData['username'];
+            $tgUser->language_code = TgDTOService::$tgData['language_code'];
             $tgUser->act = true;
             $tgUser->save();
         }
