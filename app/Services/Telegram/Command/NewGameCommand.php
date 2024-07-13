@@ -153,12 +153,10 @@ class NewGameCommand
 
     private function finishGame(Game $game)
     {
-        $newGame = new NewGame();
-        $newGame->finishGame($game);
-        $text = "Вы выполнили все задания." . PHP_EOL .
-            "Поздравляем!";
-        $this->setText($text);
-        $this->send();
+        (new NewGame())->finishGame($game);
+
+        (new TgMessage())->finishGame();
+
     }
 
 }

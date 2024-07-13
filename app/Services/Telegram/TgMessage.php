@@ -15,7 +15,7 @@ class TgMessage
     {
         $this->users = Game::getGameUsers();
     }
-    public function currentPoint($data)
+    public function currentPoint($data): void
     {
         $text = "Вам нужно быть здесь: " . PHP_EOL .
             $data['location'] . PHP_EOL .
@@ -37,7 +37,7 @@ class TgMessage
         }
     }
 
-    public function answer($question)
+    public function answer($question): void
     {
         $text = "Поздравляем! Вы правильно ответили.";
 
@@ -73,6 +73,21 @@ class TgMessage
 
             $button = [];
             $this->resetButton();
+        }
+    }
+
+    public function finishGame()
+    {
+        $text = "Вы выполнили все задания." . PHP_EOL .
+            "Поздравляем!";
+        $this->setText($text);
+
+        foreach ($this->users as $user){
+            if(!$user['confirmed'])
+                continue;
+
+            $this->setChatId($user['chat_id']);
+            $this->send();
         }
     }
 }
