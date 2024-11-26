@@ -34,7 +34,7 @@ return [
     'yandex' => [
         'client_id' => env('OAUTH_YANDEX_CLIENT_ID', 'c88fb192c63d439d98fa3266dd5284aa'),
         'client_secret' => env('OAUTH_YANDEX_CLIENT_SECRET', '191141525af74ee1a9388ce3fa161d4b'),
-        'redirect' => 'https://thepath.fun',
+        'redirect' => 'https://thepath.fun/auth/yandex/callback',
     ],
 
 ];
