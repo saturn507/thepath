@@ -47,7 +47,7 @@ return [
         'bot' => env('TELEGRAM_BOT_NAME', 'the_path_bot'),  // The bot's username
         'client_id' => null,
         'client_secret' => env('TELEGRAM_TOKEN', ''),
-        'redirect' => env('TELEGRAM_REDIRECT_URI', 'https://thepath.fun/backend/auth/telegram/callback'),
+        'redirect' => env('TELEGRAM_REDIRECT_URI', 'https://thepath.fun/backend/api/telegram/de7231e20486abbaa75ed0b2600b9085/webhook'),
     ],
 
 ];
