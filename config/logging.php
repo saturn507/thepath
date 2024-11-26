@@ -134,6 +134,12 @@ return [
             'days' => 7,
             'replace_placeholders' => true,
         ],
+        'test' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/test.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 7,
+        ],
     ],
 
 ];
