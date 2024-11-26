@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OAuth\SocialLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,13 @@ Route::get('/', function () {
 
 Route::get('/test', function () {
     echo "ok";
+});
+
+Route::get('/auth/redirect', function () {
+
+});
+
+Route::prefix('auth')->group(function () {
+    Route::get('{provider}/redirect', [SocialLoginController::class , 'redirect']);
+    Route::get('{provider}/callback', [SocialLoginController::class , 'callback']);
 });

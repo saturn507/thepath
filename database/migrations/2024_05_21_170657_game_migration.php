@@ -21,7 +21,6 @@ return new class extends Migration
                 ->onDelete('set null');
             $table->boolean('act')->nullable(false)->default(true);
             $table->timestamp('start_at')->nullable();
-            $table->timestamp('start_at')->nullable();
             $table->string('team_name')->nullable();
             $table->timestamps();
         });
