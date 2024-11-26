@@ -10,7 +10,7 @@ use Laravel\Socialite\Facades\Socialite;
 class SocialLoginController extends Controller
 {
 
-    public function redirect($provider): Socialite
+    public function redirect($provider)
     {
         return Socialite::driver($provider)->redirect();
     }
