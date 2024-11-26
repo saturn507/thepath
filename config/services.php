@@ -38,7 +38,7 @@ return [
     ],
 
     'vkontakte' => [
-        'client_id' => env('VKONTAKTE_CLIENT_ID', 'GNAJt5oW8CZy5dxQmMw9'),
+        'client_id' => env('VKONTAKTE_CLIENT_ID', '52763887'),
         'client_secret' => env('VKONTAKTE_CLIENT_SECRET', 'c014433dc014433dc014433d5ec3315fd2cc014c014433da7525598d3cd18d538d7ee8e'),
         'redirect' => env('VKONTAKTE_REDIRECT_URI', 'https://thepath.fun/backend/auth/vkontakte/callback')
     ],
