@@ -15,6 +15,8 @@
         "laravel/tinker": "^2.8",
         "mll-lab/laravel-graphql-playground": "^1.1",
         "nuwave/lighthouse": "^6.45",
+        "socialiteproviders/telegram": "^4.1",
+        "socialiteproviders/vkontakte": "^5.0",
         "socialiteproviders/yandex": "^4.1"
     },
     "require-dev": {

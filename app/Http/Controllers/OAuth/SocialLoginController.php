@@ -19,6 +19,7 @@ class SocialLoginController extends Controller
     {
         $user = Socialite::driver('yandex')->user();
         Log::channel('test')->info(json_encode($user));
+        dd($user);
     }
 
 

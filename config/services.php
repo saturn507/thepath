@@ -34,7 +34,20 @@ return [
     'yandex' => [
         'client_id' => env('OAUTH_YANDEX_CLIENT_ID', 'c88fb192c63d439d98fa3266dd5284aa'),
         'client_secret' => env('OAUTH_YANDEX_CLIENT_SECRET', '191141525af74ee1a9388ce3fa161d4b'),
-        'redirect' => 'https://thepath.fun/backend/auth/yandex/callback',
+        'redirect' => 'http://thepath.local/auth/yandex/callback',
+    ],
+
+    'vkontakte' => [
+        'client_id' => env('VKONTAKTE_CLIENT_ID', 'GNAJt5oW8CZy5dxQmMw9'),
+        'client_secret' => env('VKONTAKTE_CLIENT_SECRET', 'c014433dc014433dc014433d5ec3315fd2cc014c014433da7525598d3cd18d538d7ee8e'),
+        'redirect' => env('VKONTAKTE_REDIRECT_URI', 'https://thepath.fun/backend/auth/vkontakte/callback')
+    ],
+
+    'telegram' => [
+        'bot' => env('TELEGRAM_BOT_NAME', 'the_path_bot'),  // The bot's username
+        'client_id' => null,
+        'client_secret' => env('TELEGRAM_TOKEN', ''),
+        'redirect' => env('TELEGRAM_REDIRECT_URI', 'https://thepath.fun/backend/auth/telegram/callback'),
     ],
 
 ];
