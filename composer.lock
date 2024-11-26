@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cc0b95274c04784da162d718cc6f8ee",
+    "content-hash": "feaeb836c7a49ec5bcf0402c029b1aae",
     "packages": [
         {
             "name": "brick/math",
@@ -4711,6 +4711,103 @@
                 "source": "https://github.com/socialiteproviders/manager"
             },
             "time": "2024-11-10T01:56:18+00:00"
+        },
+        {
+            "name": "socialiteproviders/telegram",
+            "version": "4.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Telegram.git",
+                "reference": "7097d79bd85e04e80447405db83ab28a3ec2b494"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Telegram/zipball/7097d79bd85e04e80447405db83ab28a3ec2b494",
+                "reference": "7097d79bd85e04e80447405db83ab28a3ec2b494",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0",
+                "socialiteproviders/manager": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Telegram\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adnan RIHAN",
+                    "email": "adnan@rihan.fr"
+                }
+            ],
+            "description": "Telegram Authentication Provider for Laravel Socialite",
+            "support": {
+                "source": "https://github.com/SocialiteProviders/Telegram/tree/4.1.2"
+            },
+            "time": "2021-07-09T00:49:27+00:00"
+        },
+        {
+            "name": "socialiteproviders/vkontakte",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/VKontakte.git",
+                "reference": "3486290260da9e185ef25ec8150128486d939f8f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/VKontakte/zipball/3486290260da9e185ef25ec8150128486d939f8f",
+                "reference": "3486290260da9e185ef25ec8150128486d939f8f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.4 || ^8.0",
+                "socialiteproviders/manager": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\VKontakte\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Faust",
+                    "email": "hello@brianfaust.de"
+                }
+            ],
+            "description": "VKontakte OAuth2 Provider for Laravel Socialite",
+            "keywords": [
+                "laravel",
+                "oauth",
+                "provider",
+                "socialite",
+                "vkontakte"
+            ],
+            "support": {
+                "docs": "https://socialiteproviders.com/vkontakte",
+                "issues": "https://github.com/socialiteproviders/providers/issues",
+                "source": "https://github.com/socialiteproviders/providers"
+            },
+            "time": "2022-07-18T08:42:36+00:00"
         },
         {
             "name": "socialiteproviders/yandex",
