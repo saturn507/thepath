@@ -17,7 +17,7 @@ class SocialLoginController extends Controller
 
     public function callback($provider)
     {
-        $user = Socialite::driver('yandex')->user();
+        $user = Socialite::driver($provider)->user();
         Log::channel('test')->info(json_encode($user));
         dd($user);
     }
