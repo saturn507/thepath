@@ -19,7 +19,6 @@ class SocialLoginController extends Controller
     {
         $user = Socialite::driver($provider)->user();
         Log::channel('test')->info(json_encode($user));
-        dd($user);
     }
 
 
