@@ -46,7 +46,8 @@ class SocialLoginController extends Controller
 
         Auth::login($user);
 
-        dd($user->createToken('authToken')->accessToken);
+        redirect(env('APP_URL'))
+            ->withCookie(Cookie::make('access_token', $user->createToken('authToken')->accessToken, 3));
     }
 
 
