@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(TgUser::class, 'user_id', 'id');
     }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(UserProfile::class, 'user_id', 'id');
+    }
 }
