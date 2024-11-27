@@ -17,8 +17,15 @@ class SocialLoginController extends Controller
 
     public function callback($provider)
     {
-        $user = Socialite::driver($provider)->user();
-        Log::channel('test')->info(json_encode($user));
+        $userSource = Socialite::driver($provider)->user();
+        dd($userSource);
+        if($userSource){
+            $user = match ($provider){
+                'yandex' => 1,
+                'vkontakte' => 1,
+                default => false
+            };
+        }
     }
 
 
