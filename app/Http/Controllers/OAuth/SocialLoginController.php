@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\OAuth\VkontakteDTO;
 use App\Services\OAuth\YandexDTO;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
