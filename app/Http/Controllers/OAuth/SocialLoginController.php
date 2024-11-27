@@ -46,7 +46,7 @@ class SocialLoginController extends Controller
 
         Auth::login($user);
 
-        dd($user->currentAccessToken());
+        dd(Auth::user()->currentAccessToken());
     }
 
 
