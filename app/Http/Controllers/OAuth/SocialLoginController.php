@@ -46,7 +46,7 @@ class SocialLoginController extends Controller
 
         Auth::login($user);
 
-        dd($user->createToken('ThePath Password Grant Client')->accessToken);
+        dd($user->createToken('authToken')->accessToken);
     }
 
 
