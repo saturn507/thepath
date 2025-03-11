@@ -11,6 +11,7 @@ use App\Services\Game\Game as GameService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use DB;
+use Illuminate\Support\Facades\Cache;
 
 class NewGame
 {
@@ -142,6 +143,7 @@ class NewGame
 
     public function finishGame(GameModel $game)
     {
+        Cache::forget(GameModel::CACHE_GAME_STATE . $game->id);
         $game->finish_at = Carbon::now();
         $game->act = false;
         $game->save();
