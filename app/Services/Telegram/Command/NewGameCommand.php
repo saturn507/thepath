@@ -146,11 +146,12 @@ class NewGameCommand
 
                 $next = $newGame->nexQuestion($currentGame->id);
 
-                (new TgMessage())->answer($question);
-
-                if(!$next)
+                if($next){
+                    (new TgMessage())->answer($question);
+                } else {
+                    (new TgMessage())->answer($question);
                     $this->finishGame($currentGame);
-
+                }
             } else {
                 $this->setText('Ответ неверный, попробуйте еще раз');
                 $this->send();
