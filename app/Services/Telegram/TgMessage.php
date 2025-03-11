@@ -73,7 +73,7 @@ class TgMessage
                     'callback_data' => 'next_question',
                 ];
             }
-            if(count($button) > 0){
+            if(isset($button)){
                 $this->createButton(array_chunk($button, 2));
             }
 
