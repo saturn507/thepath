@@ -37,7 +37,7 @@ class TgMessage
         }
     }
 
-    public function answer($question): void
+    public function answer($question, $finish = false): void
     {
         $text = "Поздравляем! Вы правильно ответили." . PHP_EOL;
         $text .= "Правильный ответ: " . $question['answer'];
@@ -62,7 +62,7 @@ class TgMessage
                 ];
             }
 
-            if($user['capitan']){
+            if($user['capitan'] && $finish){
                 $button[] = [
                     'text' => 'Следующее задание',
                     'callback_data' => 'next_question',
