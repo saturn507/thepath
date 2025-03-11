@@ -143,7 +143,7 @@ class NewGame
 
     public function finishGame(GameModel $game)
     {
-        Cache::forget(GameModel::CACHE_GAME_STATE . $game->getAttribute('id'));
+        Cache::forget($game::CACHE_GAME_USERS . $game->getAttribute('id'));
         $game->finish_at = Carbon::now();
         $game->act = false;
         $game->save();
