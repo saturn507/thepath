@@ -17,9 +17,14 @@ class TgMessage
     }
     public function currentPoint($data): void
     {
-        $text = "Вам нужно быть здесь: " . PHP_EOL .
-            $data['location'] . PHP_EOL .
-            "Ответьте на вопрос:" . PHP_EOL . $data['question'];
+        $text = "";
+        if(!is_null($data['location'])){
+            $text .= "Вам нужно быть здесь: " . PHP_EOL . $data['location'] . PHP_EOL;
+        } else {
+            $text .= "Загадка." . PHP_EOL;
+        }
+
+        $text .=  "Ответьте на вопрос:" . PHP_EOL . $data['question'];
 
         if (!is_null($data['question_img'])) {
             $url = Storage::disk('point')->url($data['question_img']);
