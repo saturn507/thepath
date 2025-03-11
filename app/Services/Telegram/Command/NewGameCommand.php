@@ -149,7 +149,7 @@ class NewGameCommand
                 if($next){
                     (new TgMessage())->answer($question);
                 } else {
-                    (new TgMessage())->answer($question);
+                    (new TgMessage())->answer($question, true);
                     $this->finishGame($currentGame);
                 }
             } else {
