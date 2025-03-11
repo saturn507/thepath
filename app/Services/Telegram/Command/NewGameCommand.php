@@ -146,7 +146,7 @@ class NewGameCommand
 
                 $next = $newGame->nexQuestion($currentGame->id);
 
-                (new TgMessage())->answer($question, $next);
+                (new TgMessage())->answer($question);
 
                 if(!$next)
                     $this->finishGame($currentGame);

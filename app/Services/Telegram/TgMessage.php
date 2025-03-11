@@ -62,7 +62,7 @@ class TgMessage
                 ];
             }
 
-            if($user['capitan'] && $finish === false){
+            if($user['capitan']){
                 $button[] = [
                     'text' => 'Следующее задание',
                     'callback_data' => 'next_question',
