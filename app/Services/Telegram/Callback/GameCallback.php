@@ -39,10 +39,10 @@ class GameCallback
 
     public function createGame(): void
     {
-        $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
-
-        if (!$currentGame)
-            (new NewGameCommand())->notExistsGameMessage();
+//        $currentGame = GameService::checkCurrentGameFromUser(TgDTOService::$tgData['user_id']);
+//
+//        if (!$currentGame)
+//            (new NewGameCommand())->notExistsGameMessage();
 
         (new NewGame())->createGame(TgDTOService::$tgData['callback_data'][1], TgDTOService::$tgData['user_id']);
         $this->delete();
