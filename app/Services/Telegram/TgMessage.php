@@ -37,7 +37,7 @@ class TgMessage
         }
     }
 
-    public function answer($question, $finish): void
+    public function answer($question): void
     {
         $text = "Поздравляем! Вы правильно ответили." . PHP_EOL;
         $text .= "Правильный ответ: " . $question['answer'];
