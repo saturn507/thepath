@@ -67,7 +67,7 @@ class TgWebhookService
             'password' =>Hash::make(TgDTOService::$tgData['username'])
         ]);
 
-        TgDTOService::$tgData['user_id'] = $tgUser->user_id;
+        TgDTOService::$tgData['user_id'] = $user->user_id;
 
         $tgUser = TgUser::create([
             'user_id' => $user->id,
