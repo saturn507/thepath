@@ -56,6 +56,10 @@ class Game
 
     public static function getGameUsers()
     {
+        if(is_null(self::$currentGame)){
+            die();
+        }
+
         $cacheKey = GameModel::CACHE_GAME_USERS . self::$currentGame->id;
 
         if (Cache::has($cacheKey)) {
