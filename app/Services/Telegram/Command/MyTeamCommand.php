@@ -58,7 +58,7 @@ class MyTeamCommand
             $this->send();
 
         } else {
-            $this->setText('У Вас нет созданых игр');
+            $this->setText('У Вас нет созданных игр');
             $this->send();
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Services\Telegram\Callback;
 
 use App\Models\Game as GameModel;
+use App\Models\Location;
 use App\Services\Game\NewGame;
 use App\Services\Telegram\Command\NewGameCommand;
 use App\Services\Telegram\TgDTOService;
@@ -48,7 +49,7 @@ class GameCallback
         $this->delete();
 
         $text = "Новая игра создана." . PHP_EOL .
-            "Вы можете добавить в каманду еще 3-x участников" . PHP_EOL .
+            "Вы можете добавить в команду еще 3-x участников" . PHP_EOL .
             "командой /my_team";
         $this->setText($text);
 
@@ -107,7 +108,7 @@ class GameCallback
 
         (new TgMessage())->currentPoint($data);
 
-        $this->delete();
+        //$this->delete();
 
         /*$text = "Вам нужно быть здесь: " . PHP_EOL .
             $data['location'] . PHP_EOL .
@@ -120,5 +121,17 @@ class GameCallback
 
         $this->setText($text);
         $this->send();*/
+    }
+
+    public function pushHistory()
+    {
+        $text =  Location::query()
+            ->select('historical_reference')
+            ->where('id', TgDTOService::$tgData['callback_data'][1])
+            ->first()
+            ->historical_reference;
+
+        $this->setText($text);
+        $this->send();
     }
 }
