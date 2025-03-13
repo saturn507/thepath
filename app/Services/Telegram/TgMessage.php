@@ -63,7 +63,7 @@ class TgMessage
             if(!is_null($question['historical_reference'])){
                 $button[] = [
                     'text' => 'Получить историческую справку',
-                    'callback_data' => 'history.' . $question['question_id'],
+                    'callback_data' => 'history.' . $question['location_id'],
                 ];
             }
 
@@ -89,6 +89,9 @@ class TgMessage
         $text = "Вы выполнили все задания." . PHP_EOL .
             "Поздравляем!";
         $this->setText($text);
+
+        $url = Storage::disk('point')->url('firework.JPG');
+        $this->setImg($url);
 
         foreach ($this->users as $user){
             if(!$user['confirmed'])

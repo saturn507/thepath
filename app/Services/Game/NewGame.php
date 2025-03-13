@@ -118,6 +118,7 @@ class NewGame
         $location = Location::find($point->location_id);
 
         $data = [
+            'location_id' => $location->id,
             'location' => $location->name,
             'historical_reference' => $location->historical_reference,
             'question_id' => $point->id,

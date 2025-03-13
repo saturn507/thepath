@@ -32,7 +32,7 @@ class MyTeamCallback
 
         Cache::put($cacheKey, $state, 60*60);
 
-        $text = 'Отправте username пользователя telegram которого хотите добавить в команду.' . PHP_EOL;
+        $text = 'Отправьте username пользователя telegram которого хотите добавить в команду.' . PHP_EOL;
         $text .= 'Пользователь должен быть подписан на телеграм бота @the_path_bot';
         $this->setText($text);
         $this->send();
@@ -48,7 +48,7 @@ class MyTeamCallback
             $currentUsers = GameService::getGameUsers();
 
             if(isset($currentUsers[$tgUser->user_id])){
-                $text = 'Этот пользовател уже в вашей команде';
+                $text = 'Этот пользователь уже в вашей команде';
 
                 $this->createButton([[
                     [
@@ -117,7 +117,7 @@ class MyTeamCallback
             }
         } else {
             $text = 'Пользователь @' . TgDTOService::$tgData['text'] . ' не найден' . PHP_EOL;
-            $text .= 'Отправте username пользователя.' . PHP_EOL;
+            $text .= 'Отправьте username пользователя.' . PHP_EOL;
             $text .= 'ИЛИ';
 
             $this->createButton([[
@@ -149,7 +149,7 @@ class MyTeamCallback
             unset($users[$userId]);
             Cache::put(GameModel::CACHE_GAME_USERS . self::$currentGame->id, $users, 60*60*8);
 
-            $this->setText('Удален.');
+            $this->setText('Удалён.');
             $this->send();
         } else {
             $users = GameService::getGameUsers();

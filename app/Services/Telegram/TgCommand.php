@@ -28,6 +28,7 @@ class TgCommand
             'delete_callback' => $this->deleteCallback(),
             'finish_game' => (new GameCallback())->finishGame(),
             'next_question' => (new GameCallback())->nextQuestion(),
+            'history' => (new GameCallback())->pushHistory(),
         /** Настройки команды *************************************************************************************/
             'my_team_user_add_enter' => (new MyTeamCallback())->userTeamAddEnter(),
             'my_team_user_add' => (new MyTeamCallback())->userTeamAdd(),
